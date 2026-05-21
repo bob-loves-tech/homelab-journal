@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Most Exciting Topic in Tech: Backups — ZimaCube Experience Blog</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #FAFAF8;
+            --bg-secondary: #F5F5F2;
+            --text-primary: #1A1A1A;
+            --text-secondary: #6B6B6B;
+            --text-muted: #9E9E9E;
+            --accent: #6D28D9;
+            --accent-hover: #5B21B6;
+            --accent-tint: rgba(109, 40, 217, 0.06);
+            --border-light: #E5E5E5;
+            --border-accent: #6D28D9;
+            --content-max: 720px;
+            --sidebar-width: 260px;
+            --font-heading: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+            --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            font-size: 1.125rem;
+            line-height: 1.65;
+            color: var(--text-primary);
+            background: var(--bg-primary);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Layout */
+        .page-wrapper {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: var(--sidebar-width);
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            background: var(--bg-secondary);
+            border-right: 1px solid var(--border-light);
+            padding: 32px 24px;
+            overflow-y: auto;
+            z-index: 100;
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar.collapsed {
+            transform: translateX(-100%);
+        }
+
+        .main-content {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            padding: 48px 24px;
+            max-width: calc(var(--content-max) + 48px);
+        }
+
+        .content-inner {
+            max-width: var(--content-max);
+            margin: 0 auto;
+        }
+
+        /* Mobile drawer */
+        .drawer-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.3);
+            z-index: 199;
+        }
+
+        .drawer-overlay.active {
+            display: block;
+        }
+
+        .mobile-drawer {
+            display: none;
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 280px;
+            height: 100vh;
+            background: var(--bg-primary);
+            border-left: 1px solid var(--border-light);
+            padding: 24px;
+            z-index: 200;
+            overflow-y: auto;
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .mobile-drawer.active {
+            transform: translateX(0);
+        }
+
+        /* Toggle buttons */
+        .toggle-btn {
+            position: fixed;
+            top: 16px;
+            z-index: 150;
+            background: var(--bg-primary);
+            border: 1px solid var(--border-light);
+            border-radius: 4px;
+            padding: 8px 12px;
+            cursor: pointer;
+            font-family: var(--font-body);
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            transition: all 0.2s;
+        }
+
+        .toggle-btn:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .sidebar-toggle {
+            left: calc(var(--sidebar-width) + 16px);
+        }
+
+        .sidebar.collapsed + .main-content .sidebar-toggle {
+            left: 16px;
+        }
+
+        .hamburger-btn {
+            display: none;
+            right: 16px;
+            top: 16px;
+        }
+
+        /* TOC */
+        .toc-title {
+            font-family: var(--font-heading);
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 16px;
+            letter-spacing: -0.01em;
+        }
+
+        .toc-list {
+            list-style: none;
+        }
+
+        .toc-list li {
+            margin-bottom: 8px;
+        }
+
+        .toc-list li::before {
+            display: none;
+        }
+
+        .toc-list a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            display: block;
+            padding: 4px 0;
+            border-left: 2px solid transparent;
+            padding-left: 12px;
+            transition: all 0.2s;
+        }
+
+        .toc-list a:hover {
+            color: var(--accent);
+        }
+
+        .toc-list a.active {
+            color: var(--accent);
+            border-left-color: var(--accent);
+            font-weight: 500;
+        }
+
+        .toc-list a.h3 {
+            padding-left: 24px;
+            font-size: 0.8125rem;
+        }
+
+        /* Typography */
+        h1 {
+            font-family: var(--font-heading);
+            font-size: 2.5rem;
+            font-weight: 700;
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+            color: var(--text-primary);
+            margin-bottom: 32px;
+        }
+
+        h2 {
+            font-family: var(--font-heading);
+            font-size: 1.75rem;
+            font-weight: 600;
+            line-height: 1.3;
+            letter-spacing: -0.01em;
+            color: var(--text-primary);
+            margin-top: 48px;
+            margin-bottom: 20px;
+            scroll-margin-top: 24px;
+        }
+
+        h3 {
+            font-family: var(--font-body);
+            font-size: 1.25rem;
+            font-weight: 600;
+            line-height: 1.4;
+            color: var(--text-primary);
+            margin-top: 32px;
+            margin-bottom: 16px;
+            scroll-margin-top: 24px;
+        }
+
+        p {
+            margin-bottom: 20px;
+        }
+
+        a {
+            color: var(--accent);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        a:hover {
+            color: var(--accent-hover);
+            text-decoration: underline;
+        }
+
+        hr {
+            border: none;
+            border-top: 1px solid var(--border-light);
+            margin: 48px 0;
+            text-align: center;
+        }
+
+        /* Lists */
+        ul, ol {
+            margin-bottom: 20px;
+            padding-left: 24px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        ul li::before {
+            content: "";
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            background: var(--accent);
+            margin-left: -18px;
+            margin-right: 12px;
+            vertical-align: middle;
+        }
+
+        /* Blockquote */
+        blockquote {
+            border-left: 3px solid var(--border-accent);
+            background: var(--accent-tint);
+            padding: 16px 20px;
+            margin: 24px 0;
+            font-style: italic;
+            border-radius: 0 4px 4px 0;
+        }
+
+        blockquote p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Code */
+        code {
+            font-family: 'JetBrains Mono', 'Fira Code', Consolas, Monaco, monospace;
+            font-size: 0.9375rem;
+            background: #F0F0EE;
+            padding: 2px 6px;
+            border-radius: 3px;
+            color: var(--text-primary);
+        }
+
+        pre {
+            background: #1E1E1E;
+            color: #E4E4E4;
+            padding: 16px 20px;
+            border-radius: 4px;
+            overflow-x: auto;
+            margin-bottom: 20px;
+            font-family: 'JetBrains Mono', 'Fira Code', Consolas, Monaco, monospace;
+            font-size: 0.9375rem;
+            line-height: 1.6;
+        }
+
+        pre code {
+            background: transparent;
+            padding: 0;
+            color: inherit;
+        }
+
+        /* Images */
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 4px;
+            border: 1px solid var(--border-light);
+            display: block;
+            margin: 24px 0;
+        }
+
+        figcaption, .image-caption {
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            margin-top: -16px;
+            margin-bottom: 24px;
+            font-style: italic;
+        }
+
+        /* Footer date */
+        .post-footer {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.875rem;
+            margin-top: 48px;
+            padding-top: 24px;
+            border-top: 1px solid var(--border-light);
+        }
+
+        .post-footer em {
+            font-style: italic;
+        }
+
+        /* Backlinks */
+        .backlinks {
+            margin-top: 48px;
+            padding-top: 32px;
+            border-top: 1px solid var(--border-light);
+        }
+
+        .backlinks h3 {
+            font-size: 1.125rem;
+            margin-top: 0;
+            margin-bottom: 16px;
+        }
+
+        .backlinks ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .backlinks ul li::before {
+            display: none;
+        }
+
+        .backlinks li {
+            margin-bottom: 8px;
+        }
+
+        .backlinks a {
+            font-size: 0.9375rem;
+        }
+
+        .backlinks-empty {
+            color: var(--text-muted);
+            font-size: 0.9375rem;
+            font-style: italic;
+        }
+
+        /* Responsive */
+        @media (max-width: 1023px) {
+            .sidebar {
+                display: none;
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 64px 24px 48px;
+            }
+
+            .sidebar-toggle {
+                display: none;
+            }
+
+            .hamburger-btn {
+                display: block;
+            }
+
+            .mobile-drawer {
+                display: block;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (max-width: 767px) {
+            body {
+                font-size: 1rem;
+            }
+
+            .main-content {
+                padding: 64px 16px 48px;
+            }
+
+            h1 {
+                font-size: 1.75rem;
+            }
+
+            h2 {
+                font-size: 1.375rem;
+            }
+
+            h3 {
+                font-size: 1.125rem;
+            }
+        }
+        /* Top Navigation */
+        .top-nav {
+            width: 100%;
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-light);
+            padding: 16px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            flex-wrap: wrap;
+            gap: 32px;
+        }
+
+        .nav-brand {
+            font-family: var(--font-heading);
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            text-decoration: none;
+            letter-spacing: -0.01em;
+            white-space: nowrap;
+        }
+
+        .nav-brand:hover {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            gap: 0;
+        }
+
+        .nav-menu li {
+            margin: 0;
+            position: relative;
+        }
+
+        .nav-menu li::before {
+            display: none;
+        }
+
+        .nav-menu > li > a {
+            font-family: var(--font-body);
+            font-size: 0.9375rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 8px 16px;
+            display: block;
+            transition: color 0.2s, background 0.2s;
+            border-radius: 4px;
+        }
+
+        .nav-menu > li > a:hover {
+            color: var(--accent);
+            background: var(--accent-tint);
+        }
+
+        /* Dropdown */
+        .dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: var(--bg-primary);
+            border: 1px solid var(--border-light);
+            border-radius: 4px;
+            min-width: 220px;
+            padding: 8px 0;
+            z-index: 300;
+        }
+
+        .nav-menu li:hover .dropdown {
+            display: block;
+        }
+
+        .dropdown a {
+            font-family: var(--font-body);
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 8px 20px;
+            display: block;
+            transition: color 0.2s, background 0.2s;
+        }
+
+        .dropdown a:hover {
+            color: var(--accent);
+            background: var(--accent-tint);
+        }
+
+        .toggle-btn {
+            top: 72px;
+        }
+
+        .hamburger-btn {
+            top: 72px;
+        }
+
+        @media (max-width: 767px) {
+            .top-nav {
+                padding: 12px 16px;
+                gap: 16px;
+            }
+            .nav-brand {
+                font-size: 1.125rem;
+            }
+            .nav-menu > li > a {
+                font-size: 0.875rem;
+                padding: 6px 10px;
+            }
+            .dropdown {
+                min-width: 180px;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <nav class="top-nav">
+        <a href="../../index.html" class="nav-brand">ZimaCube Experience Blog</a>
+        <ul class="nav-menu">
+            <li><a href="../../index.html">Home</a></li>
+            <li>
+                <a href="../first-impressions/introduction.html">First Impressions</a>
+                <div class="dropdown">
+                    <a href="../first-impressions/introduction.html">Introduction</a>
+                    <a href="../first-impressions/unboxing.html">Unboxing</a>
+                </div>
+            </li>
+            <li>
+                <a href="../hardware/overview.html">Hardware</a>
+                <div class="dropdown">
+                    <a href="../hardware/overview.html">Overview</a>
+                    <a href="../hardware/disassembly.html">Taking It Apart</a>
+                    <a href="../hardware/would-i-buy-it.html">Would I Buy It?</a>
+                </div>
+            </li>
+            <li>
+                <a href="../windows-server/bare-metal-setup.html">Windows Server</a>
+                <div class="dropdown">
+                    <a href="../windows-server/bare-metal-setup.html">Bare-Metal Setup</a>
+                </div>
+            </li>
+            <li>
+                <a href="../homelab-journal/proxmox-primary-os.html">Homelab Journal</a>
+                <div class="dropdown">
+                    <a href="../homelab-journal/zimaos-review.html">ZimaOS Review</a>
+                    <a href="../homelab-journal/proxmox-primary-os.html">Why Proxmox</a>
+                    <a href="../homelab-journal/backups.html">Backups</a>
+                </div>
+            </li>
+            <li>
+                <a href="../meta/disclaimer.html">Meta</a>
+                <div class="dropdown">
+                    <a href="../meta/disclaimer.html">Full Disclosure</a>
+                </div>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Mobile Drawer -->
+    <div class="drawer-overlay" id="drawerOverlay" onclick="closeDrawer()"></div>
+    <div class="mobile-drawer" id="mobileDrawer">
+        <div class="toc-title">Contents</div>
+        <ul class="toc-list" id="mobileToc">
+            <li><a href="#proxmox-backup-server-on-the-zimacube">Proxmox Backup Server</a></li>
+            <li><a href="#the-circular-backup-problem">The Circular Backup Problem</a></li>
+            <li><a href="#the-synology-connection-via-zfs">Synology via ZFS</a></li>
+            <li><a href="#the-fleet-such-as-it-is">The Fleet</a></li>
+            <li><a href="#the-fan-noise-thing">Fan Noise</a></li>
+            <li><a href="#pulse-because-i-like-pretty-graphs">Pulse</a></li>
+            <li><a href="#notifications-that-actually-matter">Notifications</a></li>
+            <li><a href="#my-honest-take">My Honest Take</a></li>
+        </ul>
+    </div>
+
+    <!-- Desktop Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="toc-title">Contents</div>
+        <ul class="toc-list" id="desktopToc">
+            <li><a href="#proxmox-backup-server-on-the-zimacube">Proxmox Backup Server</a></li>
+            <li><a href="#the-circular-backup-problem">The Circular Backup Problem</a></li>
+            <li><a href="#the-synology-connection-via-zfs">Synology via ZFS</a></li>
+            <li><a href="#the-fleet-such-as-it-is">The Fleet</a></li>
+            <li><a href="#the-fan-noise-thing">Fan Noise</a></li>
+            <li><a href="#pulse-because-i-like-pretty-graphs">Pulse</a></li>
+            <li><a href="#notifications-that-actually-matter">Notifications</a></li>
+            <li><a href="#my-honest-take">My Honest Take</a></li>
+        </ul>
+    </aside>
+
+    <!-- Toggle Buttons -->
+    <button class="toggle-btn sidebar-toggle" id="sidebarToggle" onclick="toggleSidebar()" title="Toggle sidebar">⊗</button>
+    <button class="toggle-btn hamburger-btn" id="hamburgerBtn" onclick="openDrawer()" title="Open contents">☰</button>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="content-inner">
+            <h1>The Most Exciting Topic in Tech: Backups</h1>
+            <p>Backups. The word itself is enough to put a room to sleep. Nobody gets excited about backups. Nobody talks about their backup strategy at dinner parties. But here I am, genuinely pleased with mine, and I think that says something about how far down the homelab rabbit hole I have gone.</p>
+            <p>The irony is not lost on me. I spent months writing about the ZimaCube's <a href="../hardware/overview.html">hardware</a>, its <a href="../hardware/disassembly.html">fan noise</a>, what I would change about the design. And the thing I am most satisfied with is the one part of the setup that nobody can see.</p>
+            <h2 id="proxmox-backup-server-on-the-zimacube">Proxmox Backup Server on the ZimaCube</h2>
+            <p>Installing Proxmox Backup Server was straightforward. It runs on the ZimaCube alongside the main Proxmox hypervisor, on its own IP address. No drama, no fighting with dependencies, no weekend spent reading forum threads from 2019. You install it, you give it an IP, and it works.</p>
+            <p>I set it up to back up everything. The ZimaCube's own VMs, the Synology DSM virtual machine, all the containers running on the other hosts. One backup server, one place to look when I want to know everything is safe.</p>
+            <h2 id="the-circular-backup-problem">The Circular Backup Problem</h2>
+            <p>Here is where it gets a bit silly, and I am fully aware of it.</p>
+            <p>Proxmox Backup Server backs up to the Synology NAS. But the Synology NAS is itself a VM running on the ZimaCube — the same machine that Proxmox Backup Server is running on. If you are wondering how that works, I walked through the whole Synology VM setup in <a href="proxmox-primary-os.html">the Proxmox post</a>. So PBS backs up the Synology VM to the Synology NAS, which is the thing it is backing up to. It backs itself up, via the thing it is backing up to.</p>
+            <img src="../../assets/images/pulse/Proxmox%20backup%20server%20Synology%20Backup.png" alt="Proxmox Backup Server configured with Synology as the backup target">
+            <p>I know. It sounds like a thing that should not work. And in a disaster scenario where the ZimaCube physically dies, this whole arrangement becomes very unhelpful very quickly.</p>
+            <p>But that is where the Synology's own backup comes in. The Synology NAS pushes everything to Google Cloud via Cloud Sync. So the chain is: VMs get backed up by PBS to the Synology NAS, and the Synology NAS pushes a copy to Google Cloud. If the ZimaCube dies, I lose the local backup, but the cloud copy is still there. If the Synology VM dies, I can restore it from the PBS backup — assuming the ZimaCube itself is still running.</p>
+            <img src="../../assets/images/pulse/synology%20cloud%20sync%20google%20drive.png" alt="Synology Cloud Sync pushing backups to Google Drive">
+            <p>It is not a perfect setup. It is a practical one. And for a homelab, practical beats perfect every time.</p>
+            <h2 id="the-synology-connection-via-zfs">The Synology Connection via ZFS</h2>
+            <p>The Synology NAS is mounted inside Proxmox over ZFS, which means it is not just a backup target — it is part of the daily workflow. Every ISO I download, every LXC container template I grab, lives on the Synology storage but shows up natively inside Proxmox as if it were a local drive.</p>
+            <p>I mentioned this in <a href="proxmox-primary-os.html">the Proxmox post</a>, but it bears repeating because it is the kind of thing that changes how you work. Before this, if I wanted to create a VM, I needed the ISO sitting on that specific host. Now there is one copy, and every host sees it. I drop a file once and it is available everywhere.</p>
+            <h2 id="the-fleet-such-as-it-is">The Fleet (Such as It Is)</h2>
+            <p>I mentioned in <a href="proxmox-primary-os.html">the Proxmox post</a> that I had three hosts: the ZimaCube, an x86 mini PC, and the ZimaBlade. The ZimaBlade has been switched off. I found it redundant — it was not pulling its weight, and the ZimaCube handles everything it used to do without breaking a sweat. So it sits there, powered down, waiting for a purpose I have not found yet.</p>
+            <p>That leaves two active hosts. The ZimaCube is the main one — the same machine I wrote about in <a href="../hardware/overview.html">the hardware overview</a> and later <a href="../hardware/disassembly.html">took apart</a>. The second is a 2014 Mac Mini — the same machine I referred to as the "x86 mini PC" in <a href="proxmox-primary-os.html">the earlier post</a>. I did not want to call it out by name before, but it is what it is. A decade-old Apple desktop running Proxmox. It handles DNS and a couple of lightweight containers. Nothing major, but it works.</p>
+            <p>Both hosts back up to the same Synology NAS. Both use the same ISO folder and the same container template folder. Everything flows through the ZimaCube. The Mac Mini is a satellite node — it does its own thing, but its data and its storage all point back to the same place.</p>
+            <p>I was not sure the Mac Mini would handle this. It is old hardware, and Proxmox is not exactly designed for it. But it runs. Quietly. Reliably. The kind of machine you set up and then forget about, which is exactly what you want from infrastructure.</p>
+            <h2 id="the-fan-noise-thing">The Fan Noise Thing</h2>
+            <p>I should mention this because it came up in <a href="../hardware/disassembly.html">the hardware posts</a>. The ZimaCube used to have a fan noise problem. I wrote about it. I complained about it. I considered hiding the thing in a closet.</p>
+            <p>Since figuring out the fan curve, it has been absolutely quiet. Not "quiet for a server" quiet. Actually quiet. I can sit in the same room as it and not hear it at all. Which means the backup jobs run at night without sounding like a jet engine warming up.</p>
+            <p>This matters more than you would think. A homelab you cannot tolerate in your living room is a homelab that ends up in a cupboard, unplugged, forgotten. The ZimaCube stays on the desk now. It earns its place.</p>
+            <h2 id="pulse-because-i-like-pretty-graphs">Pulse: Because I Like Pretty Graphs</h2>
+            <p>I run an LXC container called Pulse for monitoring. It watches both Proxmox instances — the ZimaCube and the Mac Mini — and gives me a proper graphical dashboard. CPU usage, memory, network, disk, the lot.</p>
+            <img src="../../assets/images/pulse/pulse%20dashboard.png" alt="Pulse main dashboard">
+            <p>I know I could check all of this from the command line. I know there are terminal-based monitoring tools that would make me look very clever. But I like the GUI. I like opening a browser and seeing a dashboard that tells me at a glance whether everything is healthy or whether something is about to go wrong.</p>
+            <p>Pulse is also set up to send me alerts. If something goes wrong, I get a message. I do not need to be checking dashboards constantly — the dashboard checks me.</p>
+            <p>It monitors everything — storage, backup jobs, the PBS instance itself. All of it visible in one place.</p>
+            <img src="../../assets/images/pulse/pulse%20proxmox%20backup%20server%20dashboard.png" alt="Pulse showing the Proxmox Backup Server dashboard">
+            <img src="../../assets/images/pulse/pulse%20storage%20dashboard.png" alt="Pulse storage overview">
+            <h2 id="notifications-that-actually-matter">Notifications That Actually Matter</h2>
+            <p>Proxmox Backup Server is configured the same way. Successful backups do not generate a notification. I do not need a message telling me everything went fine — I assume it did, and if it did not, I will hear about it. But if a backup job fails, I get an alert immediately. I can look into it, figure out what went wrong, and fix it before it becomes a real problem.</p>
+            <p>This is the kind of thing that sounds minor but changes how you feel about your setup. Before this, I would occasionally remember to check whether backups had run. Now I do not have to. If something breaks, it tells me. If nothing tells me, everything is fine.</p>
+            <p>One thing I particularly love about PBS: when I destroy a container or a VM, it automatically removes that machine from the backup schedule. No orphaned backup jobs. No stale data sitting around consuming space. It just cleans up after itself. I did not expect that to matter as much as it does, but it is one of those small touches that makes the whole system feel well thought out.</p>
+            <p>Right now I am backing up everything — every LXC, every VM. Eventually, as I add less important containers, I might get more selective about what gets backed up and what does not. But for now, everything goes in. And the automatic cleanup means I do not have to manage it.</p>
+            <img src="../../assets/images/pulse/pulse%20backup%20overview.png" alt="Pulse backup overview">
+            <h2 id="my-honest-take">My Honest Take</h2>
+            <p>Backups are boring until they are not. Until the day something goes wrong and you need them, they are the most unglamorous part of any setup. But setting this up — getting PBS running, wiring in the Synology, connecting the Mac Mini, watching it all work without intervention — gave me more satisfaction than any benchmark or spec sheet ever did. And more satisfaction than <a href="../windows-server/bare-metal-setup.html">chasing Windows Server drivers</a>, for what it is worth.</p>
+            <p>The circular backup arrangement is a bit absurd. I am not pretending it is elegant. But it works, it is automated, and the data ends up in Google Cloud where it would survive even if the ZimaCube caught fire. That is good enough for me.</p>
+            <p>The real win is not the backups themselves. It is the fact that I do not have to think about them. They run, they notify me if something breaks, they clean up after themselves when I destroy a VM, and they stay quiet while doing it. A backup system you have to manage is not a backup system. It is a part-time job.</p>
+            <p>And the fact that the whole thing runs silently on hardware that fits on my desk? That is just a bonus. A long way from where I started with <a href="zimaos-review.html">ZimaOS</a> and a lot of uncertainty about what this machine was actually for.</p>
+            
+            <hr>
+            
+            <div class="post-footer">
+                <em>May 2026</em>
+            </div>
+
+            <div class="backlinks">
+                <h3>Related Posts</h3>
+                <ul>
+                    <li><a href="proxmox-primary-os.html">Why Proxmox Is the Only OS That Makes Sense</a> — the setup this builds on</li>
+                    <li><a href="../hardware/overview.html">Hardware Overview</a> — the specs this is running on</li>
+                    <li><a href="../hardware/disassembly.html">Inside the ZimaCube</a> — the fan saga and what is inside</li>
+                    <li><a href="../hardware/would-i-buy-it.html">Would I Buy It Again?</a> — my verdict on the ZimaCube as hardware</li>
+                    <li><a href="zimaos-review.html">ZimaOS: Good at What It Does</a> — why the stock OS was not enough</li>
+                    <li><a href="../windows-server/bare-metal-setup.html">Bare-Metal Windows Server 2025</a> — the experiment that preceded all of this</li>
+                </ul>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Sidebar toggle (desktop)
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('collapsed');
+            const btn = document.getElementById('sidebarToggle');
+            btn.textContent = sidebar.classList.contains('collapsed') ? '☰' : '⊗';
+        }
+
+        // Mobile drawer
+        function openDrawer() {
+            document.getElementById('mobileDrawer').classList.add('active');
+            document.getElementById('drawerOverlay').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeDrawer() {
+            document.getElementById('mobileDrawer').classList.remove('active');
+            document.getElementById('drawerOverlay').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // Active TOC highlighting
+        function updateActiveToc() {
+            const headings = document.querySelectorAll('h2[id]');
+            const tocLinks = document.querySelectorAll('.toc-list a');
+            let activeId = '';
+
+            headings.forEach(heading => {
+                const rect = heading.getBoundingClientRect();
+                if (rect.top <= 100) {
+                    activeId = heading.id;
+                }
+            });
+
+            tocLinks.forEach(link => {
+                link.classList.remove('active');
+                if (activeId && link.getAttribute('href') === '#' + activeId) {
+                    link.classList.add('active');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', updateActiveToc);
+        updateActiveToc();
+    </script>
+</body>
+</html>

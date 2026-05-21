@@ -1,0 +1,52 @@
+---
+import BlogLayout from '../layouts/BlogLayout.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog')).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+);
+
+const categories = posts.reduce((acc, post) => {
+  const cat = post.data.category;
+  if (!acc[cat]) acc[cat] = [];
+  acc[cat].push(post);
+  return acc;
+}, {} as Record<string, typeof posts>);
+---
+
+<BlogLayout title="Homelab Journal">
+  <section class="text-center mb-16">
+    <h1 class="text-5xl font-extrabold tracking-tight mb-4">Homelab <span class="text-[var(--color-primary-light)]">Journal</span></h1>
+    <p class="text-lg text-[var(--color-text-muted)] max-w-2xl mx-auto">
+      A practical, no-fluss running journal of my homelab experiments. LXC containers, Docker, Proxmox scripts, and the occasional weird idea that actually worked.
+    </p>
+  </section>
+
+  <section id="directory" class="mb-20">
+    <h2 class="text-2xl font-bold mb-6 border-b border-[var(--color-surface-hover)] pb-2">What's Here</h2>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {Object.entries(categories).map(([category, catPosts]) => (
+        <div class="bg-[var(--color-surface)] p-6 rounded-xl border border-[var(--color-surface-hover)]">
+          <h3 class="text-xl font-semibold text-[var(--color-primary-light)] mb-4">{category}</h3>
+          <ul class="space-y-3">
+            {catPosts.map(post => (
+              <li>
+                <a href={`/posts/${post.id}`} class="group block">
+                  <span class="font-medium group-hover:text-[var(--color-primary-light)]">{post.data.title}</span>
+                  <span class="block text-xs text-[var(--color-text-muted)] mt-1">{post.data.date.toLocaleDateString('en-GB', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="prose max-w-3xl border-t border-[var(--color-surface-hover)] pt-12 text-center mx-auto">
+    <h2>Why This Exists</h2>
+    <p>I break things so you don't have to. Or maybe I just like documenting the process. Either way, if it runs on Proxmox, it's probably here.</p>
+    <p class="text-sm text-[var(--color-text-muted)] mt-8">Last updated: May 2026</p>
+  </section>
+</BlogLayout>

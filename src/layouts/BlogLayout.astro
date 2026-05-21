@@ -1,0 +1,39 @@
+---
+export interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content={description ?? "ZimaCube Experience Blog — a running journal of homelab experiments."} />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+  </head>
+  <body>
+    <header class="border-b border-[var(--color-surface-hover)] bg-[var(--color-bg)] sticky top-0 z-50 backdrop-blur-md">
+      <nav class="max-w-5xl mx-auto px-4 py-4 flex items-center justify-between">
+        <a href="/" class="text-xl font-bold tracking-tight text-[var(--color-text)]">
+          Homelab<span class="text-[var(--color-primary-light)]">.journal</span>
+        </a>
+        <div class="flex gap-6 text-sm font-medium text-[var(--color-text-muted)]">
+          <a href="/#directory" class="hover:text-[var(--color-text)]">Directory</a>
+          <a href="/#about" class="hover:text-[var(--color-text)]">About</a>
+        </div>
+      </nav>
+    </header>
+    <main class="max-w-5xl mx-auto px-4 py-12">
+      <slot />
+    </main>
+    <footer class="border-t border-[var(--color-surface-hover)] mt-24 py-8 text-center text-sm text-[var(--color-text-muted)]">
+      <p>© {new Date().getFullYear()} Bobby Olejnik. Powered by Astro & Tailwind.</p>
+    </footer>
+  </body>
+</html>

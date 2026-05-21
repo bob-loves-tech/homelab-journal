@@ -1,0 +1,33 @@
+---
+import BlogLayout from '../../layouts/BlogLayout.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map(post => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+---
+
+<BlogLayout title={post.data.title}>
+  <article class="prose max-w-3xl">
+    <Content />
+    <hr class="my-8 border-[var(--color-surface-hover)]" />
+    {post.data.related && post.data.related.length > 0 && (
+      <div class="mb-8">
+        <h3 class="text-lg font-semibold mb-3">Related Posts:</h3>
+        <ul class="space-y-2">
+          {post.data.related.map(r => (
+            <li><a href={r.url}>{r.title}</a></li>
+          ))}
+        </ul>
+      </div>
+    )}
+    <p class="text-sm text-[var(--color-text-muted)] mt-6">Written: {post.data.date.toLocaleDateString('en-GB', { month: 'long', year: 'numeric' })}</p>
+  </article>
+</BlogLayout>

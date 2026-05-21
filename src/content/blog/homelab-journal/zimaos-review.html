@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZimaOS: Good at What It Does, Just Not for This — ZimaCube Experience Blog</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #FAFAF8;
+            --bg-secondary: #F5F5F2;
+            --text-primary: #1A1A1A;
+            --text-secondary: #6B6B6B;
+            --text-muted: #9E9E9E;
+            --accent: #6D28D9;
+            --accent-hover: #5B21B6;
+            --accent-tint: rgba(109, 40, 217, 0.06);
+            --border-light: #E5E5E5;
+            --border-accent: #6D28D9;
+            --content-max: 720px;
+            --sidebar-width: 260px;
+            --font-heading: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+            --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            font-size: 1.125rem;
+            line-height: 1.65;
+            color: var(--text-primary);
+            background: var(--bg-primary);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Layout */
+        .page-wrapper {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: var(--sidebar-width);
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            background: var(--bg-secondary);
+            border-right: 1px solid var(--border-light);
+            padding: 32px 24px;
+            overflow-y: auto;
+            z-index: 100;
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar.collapsed {
+            transform: translateX(-100%);
+        }
+
+        .main-content {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            padding: 48px 24px;
+            max-width: calc(var(--content-max) + 48px);
+        }
+
+        .content-inner {
+            max-width: var(--content-max);
+            margin: 0 auto;
+        }
+
+        /* Mobile drawer */
+        .drawer-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.3);
+            z-index: 199;
+        }
+
+        .drawer-overlay.active {
+            display: block;
+        }
+
+        .mobile-drawer {
+            display: none;
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 280px;
+            height: 100vh;
+            background: var(--bg-primary);
+            border-left: 1px solid var(--border-light);
+            padding: 24px;
+            z-index: 200;
+            overflow-y: auto;
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .mobile-drawer.active {
+            transform: translateX(0);
+        }
+
+        /* Toggle buttons */
+        .toggle-btn {
+            position: fixed;
+            top: 16px;
+            z-index: 150;
+            background: var(--bg-primary);
+            border: 1px solid var(--border-light);
+            border-radius: 4px;
+            padding: 8px 12px;
+            cursor: pointer;
+            font-family: var(--font-body);
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            transition: all 0.2s;
+        }
+
+        .toggle-btn:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .sidebar-toggle {
+            left: calc(var(--sidebar-width) + 16px);
+        }
+
+        .sidebar.collapsed + .main-content .sidebar-toggle {
+            left: 16px;
+        }
+
+        .hamburger-btn {
+            display: none;
+            right: 16px;
+            top: 16px;
+        }
+
+        /* TOC */
+        .toc-title {
+            font-family: var(--font-heading);
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 16px;
+            letter-spacing: -0.01em;
+        }
+
+        .toc-list {
+            list-style: none;
+        }
+
+        .toc-list li {
+            margin-bottom: 8px;
+        }
+
+        .toc-list li::before {
+            display: none;
+        }
+
+        .toc-list a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            display: block;
+            padding: 4px 0;
+            border-left: 2px solid transparent;
+            padding-left: 12px;
+            transition: all 0.2s;
+        }
+
+        .toc-list a:hover {
+            color: var(--accent);
+        }
+
+        .toc-list a.active {
+            color: var(--accent);
+            border-left-color: var(--accent);
+            font-weight: 500;
+        }
+
+        .toc-list a.h3 {
+            padding-left: 24px;
+            font-size: 0.8125rem;
+        }
+
+        /* Typography */
+        h1 {
+            font-family: var(--font-heading);
+            font-size: 2.5rem;
+            font-weight: 700;
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+            color: var(--text-primary);
+            margin-bottom: 32px;
+        }
+
+        h2 {
+            font-family: var(--font-heading);
+            font-size: 1.75rem;
+            font-weight: 600;
+            line-height: 1.3;
+            letter-spacing: -0.01em;
+            color: var(--text-primary);
+            margin-top: 48px;
+            margin-bottom: 20px;
+            scroll-margin-top: 24px;
+        }
+
+        h3 {
+            font-family: var(--font-body);
+            font-size: 1.25rem;
+            font-weight: 600;
+            line-height: 1.4;
+            color: var(--text-primary);
+            margin-top: 32px;
+            margin-bottom: 16px;
+            scroll-margin-top: 24px;
+        }
+
+        p {
+            margin-bottom: 20px;
+        }
+
+        a {
+            color: var(--accent);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        a:hover {
+            color: var(--accent-hover);
+            text-decoration: underline;
+        }
+
+        hr {
+            border: none;
+            border-top: 1px solid var(--border-light);
+            margin: 48px 0;
+            text-align: center;
+        }
+
+        /* Lists */
+        ul, ol {
+            margin-bottom: 20px;
+            padding-left: 24px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        ul li::before {
+            content: "";
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            background: var(--accent);
+            margin-left: -18px;
+            margin-right: 12px;
+            vertical-align: middle;
+        }
+
+        /* Blockquote */
+        blockquote {
+            border-left: 3px solid var(--border-accent);
+            background: var(--accent-tint);
+            padding: 16px 20px;
+            margin: 24px 0;
+            font-style: italic;
+            border-radius: 0 4px 4px 0;
+        }
+
+        blockquote p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Code */
+        code {
+            font-family: 'JetBrains Mono', 'Fira Code', Consolas, Monaco, monospace;
+            font-size: 0.9375rem;
+            background: #F0F0EE;
+            padding: 2px 6px;
+            border-radius: 3px;
+            color: var(--text-primary);
+        }
+
+        pre {
+            background: #1E1E1E;
+            color: #E4E4E4;
+            padding: 16px 20px;
+            border-radius: 4px;
+            overflow-x: auto;
+            margin-bottom: 20px;
+            font-family: 'JetBrains Mono', 'Fira Code', Consolas, Monaco, monospace;
+            font-size: 0.9375rem;
+            line-height: 1.6;
+        }
+
+        pre code {
+            background: transparent;
+            padding: 0;
+            color: inherit;
+        }
+
+        /* Images */
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 4px;
+            border: 1px solid var(--border-light);
+            display: block;
+            margin: 24px 0;
+        }
+
+        figcaption, .image-caption {
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            margin-top: -16px;
+            margin-bottom: 24px;
+            font-style: italic;
+        }
+
+        /* Footer date */
+        .post-footer {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.875rem;
+            margin-top: 48px;
+            padding-top: 24px;
+            border-top: 1px solid var(--border-light);
+        }
+
+        .post-footer em {
+            font-style: italic;
+        }
+
+        /* Backlinks */
+        .backlinks {
+            margin-top: 48px;
+            padding-top: 32px;
+            border-top: 1px solid var(--border-light);
+        }
+
+        .backlinks h3 {
+            font-size: 1.125rem;
+            margin-top: 0;
+            margin-bottom: 16px;
+        }
+
+        .backlinks ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .backlinks ul li::before {
+            display: none;
+        }
+
+        .backlinks li {
+            margin-bottom: 8px;
+        }
+
+        .backlinks a {
+            font-size: 0.9375rem;
+        }
+
+        .backlinks-empty {
+            color: var(--text-muted);
+            font-size: 0.9375rem;
+            font-style: italic;
+        }
+
+        /* Responsive */
+        @media (max-width: 1023px) {
+            .sidebar {
+                display: none;
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 64px 24px 48px;
+            }
+
+            .sidebar-toggle {
+                display: none;
+            }
+
+            .hamburger-btn {
+                display: block;
+            }
+
+            .mobile-drawer {
+                display: block;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (max-width: 767px) {
+            body {
+                font-size: 1rem;
+            }
+
+            .main-content {
+                padding: 64px 16px 48px;
+            }
+
+            h1 {
+                font-size: 1.75rem;
+            }
+
+            h2 {
+                font-size: 1.375rem;
+            }
+
+            h3 {
+                font-size: 1.125rem;
+            }
+        }
+        /* Top Navigation */
+        .top-nav {
+            width: 100%;
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-light);
+            padding: 16px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            flex-wrap: wrap;
+            gap: 32px;
+        }
+
+        .nav-brand {
+            font-family: var(--font-heading);
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            text-decoration: none;
+            letter-spacing: -0.01em;
+            white-space: nowrap;
+        }
+
+        .nav-brand:hover {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            gap: 0;
+        }
+
+        .nav-menu li {
+            margin: 0;
+            position: relative;
+        }
+
+        .nav-menu li::before {
+            display: none;
+        }
+
+        .nav-menu > li > a {
+            font-family: var(--font-body);
+            font-size: 0.9375rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 8px 16px;
+            display: block;
+            transition: color 0.2s, background 0.2s;
+            border-radius: 4px;
+        }
+
+        .nav-menu > li > a:hover {
+            color: var(--accent);
+            background: var(--accent-tint);
+        }
+
+        /* Dropdown */
+        .dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: var(--bg-primary);
+            border: 1px solid var(--border-light);
+            border-radius: 4px;
+            min-width: 220px;
+            padding: 8px 0;
+            z-index: 300;
+        }
+
+        .nav-menu li:hover .dropdown {
+            display: block;
+        }
+
+        .dropdown a {
+            font-family: var(--font-body);
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 8px 20px;
+            display: block;
+            transition: color 0.2s, background 0.2s;
+        }
+
+        .dropdown a:hover {
+            color: var(--accent);
+            background: var(--accent-tint);
+        }
+
+        .toggle-btn {
+            top: 72px;
+        }
+
+        .hamburger-btn {
+            top: 72px;
+        }
+
+        @media (max-width: 767px) {
+            .top-nav {
+                padding: 12px 16px;
+                gap: 16px;
+            }
+            .nav-brand {
+                font-size: 1.125rem;
+            }
+            .nav-menu > li > a {
+                font-size: 0.875rem;
+                padding: 6px 10px;
+            }
+            .dropdown {
+                min-width: 180px;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <nav class="top-nav">
+        <a href="../../index.html" class="nav-brand">ZimaCube Experience Blog</a>
+        <ul class="nav-menu">
+            <li><a href="../../index.html">Home</a></li>
+            <li>
+                <a href="../first-impressions/introduction.html">First Impressions</a>
+                <div class="dropdown">
+                    <a href="../first-impressions/introduction.html">Introduction</a>
+                    <a href="../first-impressions/unboxing.html">Unboxing</a>
+                </div>
+            </li>
+            <li>
+                <a href="../hardware/overview.html">Hardware</a>
+                <div class="dropdown">
+                    <a href="../hardware/overview.html">Overview</a>
+                    <a href="../hardware/disassembly.html">Taking It Apart</a>
+                    <a href="../hardware/would-i-buy-it.html">Would I Buy It?</a>
+                </div>
+            </li>
+            <li>
+                <a href="../windows-server/bare-metal-setup.html">Windows Server</a>
+                <div class="dropdown">
+                    <a href="../windows-server/bare-metal-setup.html">Bare-Metal Setup</a>
+                </div>
+            </li>
+            <li>
+                <a href="../homelab-journal/proxmox-primary-os.html">Homelab Journal</a>
+                <div class="dropdown">
+                    <a href="../homelab-journal/zimaos-review.html">ZimaOS Review</a>
+                    <a href="../homelab-journal/proxmox-primary-os.html">Why Proxmox</a>
+                    <a href="../homelab-journal/backups.html">Backups</a>
+                </div>
+            </li>
+            <li>
+                <a href="../meta/disclaimer.html">Meta</a>
+                <div class="dropdown">
+                    <a href="../meta/disclaimer.html">Full Disclosure</a>
+                </div>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Mobile Drawer -->
+    <div class="drawer-overlay" id="drawerOverlay" onclick="closeDrawer()"></div>
+    <div class="mobile-drawer" id="mobileDrawer">
+        <div class="toc-title">Contents</div>
+        <ul class="toc-list" id="mobileToc">
+            <li><a href="#what-zimaos-gets-right">What ZimaOS Gets Right</a></li>
+            <li><a href="#the-problem-with-running-it-here">The Problem with Running It Here</a></li>
+            <li><a href="#what-i-actually-want-to-do-with-this-box">What I Actually Want to Do With This Box</a></li>
+            <li><a href="#where-the-line-is">Where the Line Is</a></li>
+            <li><a href="#the-bottom-line">The Bottom Line</a></li>
+        </ul>
+    </div>
+
+    <!-- Desktop Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="toc-title">Contents</div>
+        <ul class="toc-list" id="desktopToc">
+            <li><a href="#what-zimaos-gets-right">What ZimaOS Gets Right</a></li>
+            <li><a href="#the-problem-with-running-it-here">The Problem with Running It Here</a></li>
+            <li><a href="#what-i-actually-want-to-do-with-this-box">What I Actually Want to Do With This Box</a></li>
+            <li><a href="#where-the-line-is">Where the Line Is</a></li>
+            <li><a href="#the-bottom-line">The Bottom Line</a></li>
+        </ul>
+    </aside>
+
+    <!-- Toggle Buttons -->
+    <button class="toggle-btn sidebar-toggle" id="sidebarToggle" onclick="toggleSidebar()" title="Toggle sidebar">⊗</button>
+    <button class="toggle-btn hamburger-btn" id="hamburgerBtn" onclick="openDrawer()" title="Open contents">☰</button>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="content-inner">
+            <h1>ZimaOS: Good at What It Does, Just Not for This</h1>
+            <p>I have been running ZimaOS for a while now. Not just on the ZimaCube, but on the ZimaBoard 2 and the Zima Blade too. So when I say I know this operating system, I mean it. I have lived with it across multiple devices, and I can tell you exactly where it works and where it does not.</p>
+            <p>And on the ZimaCube Standard, it does not work for what I want to do.</p>
+            <h2 id="what-zimaos-gets-right">What ZimaOS Gets Right</h2>
+            <p>There are plenty of positives. ZimaOS is easy to set up. You flash it to a USB stick, boot from it, and within minutes you are looking at a clean web interface. It handles RAID configurations without making you learn mdadm commands. It sets up SMB shares. It runs Docker containers. For someone who wants a home NAS and does not want to think about the OS underneath, it is hard to beat.</p>
+            <p>I have recommended it to people. If you have a small form factor PC with four cores and you want it to do NAS duty and maybe run a few Docker apps, ZimaOS makes sense. It is low maintenance. It just works for that use case.</p>
+            <h2 id="the-problem-with-running-it-here">The Problem with Running It Here</h2>
+            <p>The ZimaCube Standard has an i3-1215U. Six physical cores, eight logical threads, up to 64GB of RAM, dual PCIe slots, and integrated graphics that can do real work. The Pro steps up to an i3-1235U and adds a 10Gb NIC. This is not a four-core small form factor PC. This hardware is built for virtualization and running multiple operating systems. It is built for using the silicon you paid for.</p>
+            <p>ZimaOS cannot run VMs. It cannot run LXC containers either. It is Docker and NAS features, full stop.</p>
+            <p>I keep thinking about the same thing: what is the point of all these cores if the OS never asks them to do anything meaningful? Under ZimaOS, you are running a file server with a container engine. The CPU sits mostly idle unless you are hitting the drives hard. For a device with this much headroom, that feels like a waste.</p>
+            <h2 id="what-i-actually-want-to-do-with-this-box">What I Actually Want to Do With This Box</h2>
+            <p>I am running Windows Server 2025 on mine. Bare metal, not in a VM, because I want to use this hardware properly. I want to spin up actual virtual machines. I want LXC containers alongside them. I want to remote into a Windows desktop and have the integrated graphics handle the GUI, because it can.</p>
+            <p>Could I do any of that on ZimaOS? No. Not without tearing the whole thing down and installing something else anyway.</p>
+            <p>Proxmox is probably the perfect operating system for the ZimaCube Standard and Pro. It is built for exactly this hardware class. But even if you do not want Proxmox, the point is the same: you need an OS that virtualizes if you want to use this device to its fullest.</p>
+            <h2 id="where-the-line-is">Where the Line Is</h2>
+            <p>My rough rule of thumb, based on using this across multiple devices: if you have four cores or fewer and your only goal is NAS plus some Docker containers, ZimaOS is fine. Better than fine, even. It is the easiest path from "I have a small PC" to "I have a working NAS."</p>
+            <p>But if you have more than four cores? If you have integrated graphics you want to use? If you can see yourself wanting VMs, or Windows Server, or anything beyond file shares and containers? Then ZimaOS is the wrong tool. It is not a performance issue. It is a capability issue. The OS does not do what this hardware is built to do.</p>
+            <h2 id="the-bottom-line">The Bottom Line</h2>
+            <p>ZimaOS is good. On the ZimaBoard 2 and Zima Blade, it is the right choice. On small form factor PCs with modest CPUs, I would still recommend it. But on the ZimaCube Standard and Pro, buying this hardware and leaving it on ZimaOS is like buying a truck and never putting anything in the bed. It works. It drives. But you are not using what you paid for.</p>
+            <p>If you are considering a ZimaCube and you know you want to run VMs, plan your OS migration before you even plug it in. ZimaOS will get you running in ten minutes, and you will outgrow it in ten days.</p>
+            
+            <hr>
+            
+            
+            <div class="post-footer">
+                <em>May 2026</em>
+            </div>
+
+            <div class="backlinks">
+                <h3>Related Posts</h3>
+                <p class="backlinks-empty">No direct links from this post.</p>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Sidebar toggle (desktop)
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('collapsed');
+            const btn = document.getElementById('sidebarToggle');
+            btn.textContent = sidebar.classList.contains('collapsed') ? '☰' : '⊗';
+        }
+
+        // Mobile drawer
+        function openDrawer() {
+            document.getElementById('mobileDrawer').classList.add('active');
+            document.getElementById('drawerOverlay').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeDrawer() {
+            document.getElementById('mobileDrawer').classList.remove('active');
+            document.getElementById('drawerOverlay').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // Active TOC highlighting
+        function updateActiveToc() {
+            const headings = document.querySelectorAll('h2[id]');
+            const tocLinks = document.querySelectorAll('.toc-list a');
+            let activeId = '';
+
+            headings.forEach(heading => {
+                const rect = heading.getBoundingClientRect();
+                if (rect.top <= 100) {
+                    activeId = heading.id;
+                }
+            });
+
+            tocLinks.forEach(link => {
+                link.classList.remove('active');
+                if (activeId && link.getAttribute('href') === '#' + activeId) {
+                    link.classList.add('active');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', updateActiveToc);
+        updateActiveToc();
+    </script>
+</body>
+</html>

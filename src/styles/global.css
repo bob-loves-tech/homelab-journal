@@ -1,0 +1,91 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #6B21A8;
+  --color-primary-light: #A855F7;
+  --color-primary-dark: #4C1D95;
+  --color-bg: #0B0F19;
+  --color-surface: #151A28;
+  --color-surface-hover: #1E2538;
+  --color-text: #E2E8F0;
+  --color-text-muted: #94A3B8;
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+}
+
+:root {
+  @media (prefers-color-scheme: light) {
+    --color-bg: #F8FAFC;
+    --color-surface: #FFFFFF;
+    --color-surface-hover: #F1F5F9;
+    --color-text: #0F172A;
+    --color-text-muted: #64748B;
+  }
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  transition: background-color 0.2s, color 0.2s;
+}
+
+a {
+  color: var(--color-primary-light);
+  text-decoration: none;
+  transition: color 0.15s;
+}
+a:hover {
+  color: var(--color-primary);
+  text-decoration: underline;
+}
+
+/* Prose/Content Styling */
+.prose {
+  max-width: 65ch;
+  line-height: 1.7;
+}
+.prose h1 {
+  font-size: 2.25rem;
+  font-weight: 800;
+  margin-bottom: 1.5rem;
+  letter-spacing: -0.025em;
+}
+.prose h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid var(--color-surface-hover);
+  padding-bottom: 0.5rem;
+}
+.prose h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+}
+.prose p {
+  margin-bottom: 1.25rem;
+}
+.prose code {
+  font-family: var(--font-mono);
+  background-color: var(--color-surface);
+  padding: 0.2rem 0.4rem;
+  border-radius: 0.375rem;
+  font-size: 0.9em;
+}
+.prose pre {
+  background-color: var(--color-surface);
+  padding: 1rem;
+  border-radius: 0.5rem;
+  overflow-x: auto;
+  margin-bottom: 1.5rem;
+}
+.prose blockquote {
+  border-left: 4px solid var(--color-primary);
+  padding-left: 1rem;
+  font-style: italic;
+  color: var(--color-text-muted);
+  margin: 1.5rem 0;
+}

@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Would I Buy the ZimaCube 2 With My Own Money? — ZimaCube Experience Blog</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #FAFAF8;
+            --bg-secondary: #F5F5F2;
+            --text-primary: #1A1A1A;
+            --text-secondary: #6B6B6B;
+            --text-muted: #9E9E9E;
+            --accent: #6D28D9;
+            --accent-hover: #5B21B6;
+            --accent-tint: rgba(109, 40, 217, 0.06);
+            --border-light: #E5E5E5;
+            --border-accent: #6D28D9;
+            --content-max: 720px;
+            --sidebar-width: 260px;
+            --font-heading: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+            --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            font-size: 1.125rem;
+            line-height: 1.65;
+            color: var(--text-primary);
+            background: var(--bg-primary);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Layout */
+        .page-wrapper {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: var(--sidebar-width);
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            background: var(--bg-secondary);
+            border-right: 1px solid var(--border-light);
+            padding: 32px 24px;
+            overflow-y: auto;
+            z-index: 100;
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar.collapsed {
+            transform: translateX(-100%);
+        }
+
+        .main-content {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            padding: 48px 24px;
+            max-width: calc(var(--content-max) + 48px);
+        }
+
+        .content-inner {
+            max-width: var(--content-max);
+            margin: 0 auto;
+        }
+
+        /* Mobile drawer */
+        .drawer-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.3);
+            z-index: 199;
+        }
+
+        .drawer-overlay.active {
+            display: block;
+        }
+
+        .mobile-drawer {
+            display: none;
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 280px;
+            height: 100vh;
+            background: var(--bg-primary);
+            border-left: 1px solid var(--border-light);
+            padding: 24px;
+            z-index: 200;
+            overflow-y: auto;
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .mobile-drawer.active {
+            transform: translateX(0);
+        }
+
+        /* Toggle buttons */
+        .toggle-btn {
+            position: fixed;
+            top: 16px;
+            z-index: 150;
+            background: var(--bg-primary);
+            border: 1px solid var(--border-light);
+            border-radius: 4px;
+            padding: 8px 12px;
+            cursor: pointer;
+            font-family: var(--font-body);
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            transition: all 0.2s;
+        }
+
+        .toggle-btn:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .sidebar-toggle {
+            left: calc(var(--sidebar-width) + 16px);
+        }
+
+        .sidebar.collapsed + .main-content .sidebar-toggle {
+            left: 16px;
+        }
+
+        .hamburger-btn {
+            display: none;
+            right: 16px;
+            top: 16px;
+        }
+
+        /* TOC */
+        .toc-title {
+            font-family: var(--font-heading);
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 16px;
+            letter-spacing: -0.01em;
+        }
+
+        .toc-list {
+            list-style: none;
+        }
+
+        .toc-list li {
+            margin-bottom: 8px;
+        }
+
+        .toc-list li::before {
+            display: none;
+        }
+
+        .toc-list a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            display: block;
+            padding: 4px 0;
+            border-left: 2px solid transparent;
+            padding-left: 12px;
+            transition: all 0.2s;
+        }
+
+        .toc-list a:hover {
+            color: var(--accent);
+        }
+
+        .toc-list a.active {
+            color: var(--accent);
+            border-left-color: var(--accent);
+            font-weight: 500;
+        }
+
+        .toc-list a.h3 {
+            padding-left: 24px;
+            font-size: 0.8125rem;
+        }
+
+        /* Typography */
+        h1 {
+            font-family: var(--font-heading);
+            font-size: 2.5rem;
+            font-weight: 700;
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+            color: var(--text-primary);
+            margin-bottom: 32px;
+        }
+
+        h2 {
+            font-family: var(--font-heading);
+            font-size: 1.75rem;
+            font-weight: 600;
+            line-height: 1.3;
+            letter-spacing: -0.01em;
+            color: var(--text-primary);
+            margin-top: 48px;
+            margin-bottom: 20px;
+            scroll-margin-top: 24px;
+        }
+
+        h3 {
+            font-family: var(--font-body);
+            font-size: 1.25rem;
+            font-weight: 600;
+            line-height: 1.4;
+            color: var(--text-primary);
+            margin-top: 32px;
+            margin-bottom: 16px;
+            scroll-margin-top: 24px;
+        }
+
+        p {
+            margin-bottom: 20px;
+        }
+
+        a {
+            color: var(--accent);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        a:hover {
+            color: var(--accent-hover);
+            text-decoration: underline;
+        }
+
+        hr {
+            border: none;
+            border-top: 1px solid var(--border-light);
+            margin: 48px 0;
+            text-align: center;
+        }
+
+        /* Lists */
+        ul, ol {
+            margin-bottom: 20px;
+            padding-left: 24px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        ul li::before {
+            content: "";
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            background: var(--accent);
+            margin-left: -18px;
+            margin-right: 12px;
+            vertical-align: middle;
+        }
+
+        /* Blockquote */
+        blockquote {
+            border-left: 3px solid var(--border-accent);
+            background: var(--accent-tint);
+            padding: 16px 20px;
+            margin: 24px 0;
+            font-style: italic;
+            border-radius: 0 4px 4px 0;
+        }
+
+        blockquote p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Code */
+        code {
+            font-family: 'JetBrains Mono', 'Fira Code', Consolas, Monaco, monospace;
+            font-size: 0.9375rem;
+            background: #F0F0EE;
+            padding: 2px 6px;
+            border-radius: 3px;
+            color: var(--text-primary);
+        }
+
+        pre {
+            background: #1E1E1E;
+            color: #E4E4E4;
+            padding: 16px 20px;
+            border-radius: 4px;
+            overflow-x: auto;
+            margin-bottom: 20px;
+            font-family: 'JetBrains Mono', 'Fira Code', Consolas, Monaco, monospace;
+            font-size: 0.9375rem;
+            line-height: 1.6;
+        }
+
+        pre code {
+            background: transparent;
+            padding: 0;
+            color: inherit;
+        }
+
+        /* Images */
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 4px;
+            border: 1px solid var(--border-light);
+            display: block;
+            margin: 24px 0;
+        }
+
+        figcaption, .image-caption {
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            margin-top: -16px;
+            margin-bottom: 24px;
+            font-style: italic;
+        }
+
+        /* Footer date */
+        .post-footer {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.875rem;
+            margin-top: 48px;
+            padding-top: 24px;
+            border-top: 1px solid var(--border-light);
+        }
+
+        .post-footer em {
+            font-style: italic;
+        }
+
+        /* Backlinks */
+        .backlinks {
+            margin-top: 48px;
+            padding-top: 32px;
+            border-top: 1px solid var(--border-light);
+        }
+
+        .backlinks h3 {
+            font-size: 1.125rem;
+            margin-top: 0;
+            margin-bottom: 16px;
+        }
+
+        .backlinks ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .backlinks ul li::before {
+            display: none;
+        }
+
+        .backlinks li {
+            margin-bottom: 8px;
+        }
+
+        .backlinks a {
+            font-size: 0.9375rem;
+        }
+
+        .backlinks-empty {
+            color: var(--text-muted);
+            font-size: 0.9375rem;
+            font-style: italic;
+        }
+
+        /* Responsive */
+        @media (max-width: 1023px) {
+            .sidebar {
+                display: none;
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 64px 24px 48px;
+            }
+
+            .sidebar-toggle {
+                display: none;
+            }
+
+            .hamburger-btn {
+                display: block;
+            }
+
+            .mobile-drawer {
+                display: block;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (max-width: 767px) {
+            body {
+                font-size: 1rem;
+            }
+
+            .main-content {
+                padding: 64px 16px 48px;
+            }
+
+            h1 {
+                font-size: 1.75rem;
+            }
+
+            h2 {
+                font-size: 1.375rem;
+            }
+
+            h3 {
+                font-size: 1.125rem;
+            }
+        }
+        /* Top Navigation */
+        .top-nav {
+            width: 100%;
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-light);
+            padding: 16px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            flex-wrap: wrap;
+            gap: 32px;
+        }
+
+        .nav-brand {
+            font-family: var(--font-heading);
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            text-decoration: none;
+            letter-spacing: -0.01em;
+            white-space: nowrap;
+        }
+
+        .nav-brand:hover {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            gap: 0;
+        }
+
+        .nav-menu li {
+            margin: 0;
+            position: relative;
+        }
+
+        .nav-menu li::before {
+            display: none;
+        }
+
+        .nav-menu > li > a {
+            font-family: var(--font-body);
+            font-size: 0.9375rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 8px 16px;
+            display: block;
+            transition: color 0.2s, background 0.2s;
+            border-radius: 4px;
+        }
+
+        .nav-menu > li > a:hover {
+            color: var(--accent);
+            background: var(--accent-tint);
+        }
+
+        /* Dropdown */
+        .dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: var(--bg-primary);
+            border: 1px solid var(--border-light);
+            border-radius: 4px;
+            min-width: 220px;
+            padding: 8px 0;
+            z-index: 300;
+        }
+
+        .nav-menu li:hover .dropdown {
+            display: block;
+        }
+
+        .dropdown a {
+            font-family: var(--font-body);
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 8px 20px;
+            display: block;
+            transition: color 0.2s, background 0.2s;
+        }
+
+        .dropdown a:hover {
+            color: var(--accent);
+            background: var(--accent-tint);
+        }
+
+        .toggle-btn {
+            top: 72px;
+        }
+
+        .hamburger-btn {
+            top: 72px;
+        }
+
+        @media (max-width: 767px) {
+            .top-nav {
+                padding: 12px 16px;
+                gap: 16px;
+            }
+            .nav-brand {
+                font-size: 1.125rem;
+            }
+            .nav-menu > li > a {
+                font-size: 0.875rem;
+                padding: 6px 10px;
+            }
+            .dropdown {
+                min-width: 180px;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <nav class="top-nav">
+        <a href="../../index.html" class="nav-brand">ZimaCube Experience Blog</a>
+        <ul class="nav-menu">
+            <li><a href="../../index.html">Home</a></li>
+            <li>
+                <a href="../first-impressions/introduction.html">First Impressions</a>
+                <div class="dropdown">
+                    <a href="../first-impressions/introduction.html">Introduction</a>
+                    <a href="../first-impressions/unboxing.html">Unboxing</a>
+                </div>
+            </li>
+            <li>
+                <a href="../hardware/overview.html">Hardware</a>
+                <div class="dropdown">
+                    <a href="../hardware/overview.html">Overview</a>
+                    <a href="../hardware/disassembly.html">Taking It Apart</a>
+                    <a href="../hardware/would-i-buy-it.html">Would I Buy It?</a>
+                </div>
+            </li>
+            <li>
+                <a href="../windows-server/bare-metal-setup.html">Windows Server</a>
+                <div class="dropdown">
+                    <a href="../windows-server/bare-metal-setup.html">Bare-Metal Setup</a>
+                </div>
+            </li>
+            <li>
+                <a href="../homelab-journal/proxmox-primary-os.html">Homelab Journal</a>
+                <div class="dropdown">
+                    <a href="../homelab-journal/zimaos-review.html">ZimaOS Review</a>
+                    <a href="../homelab-journal/proxmox-primary-os.html">Why Proxmox</a>
+                    <a href="../homelab-journal/backups.html">Backups</a>
+                </div>
+            </li>
+            <li>
+                <a href="../meta/disclaimer.html">Meta</a>
+                <div class="dropdown">
+                    <a href="../meta/disclaimer.html">Full Disclosure</a>
+                </div>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Mobile Drawer -->
+    <div class="drawer-overlay" id="drawerOverlay" onclick="closeDrawer()"></div>
+    <div class="mobile-drawer" id="mobileDrawer">
+        <div class="toc-title">Contents</div>
+        <ul class="toc-list" id="mobileToc">
+            <li><a href="#what-free-actually-cost-me">What "Free" Actually Cost Me</a></li>
+            <li><a href="#the-real-math">The Real Math</a></li>
+            <li><a href="#why-diy-isnt-the-whole-story">Why DIY Isn't the Whole Story</a></li>
+            <li><a href="#the-one-thing-id-change">The One Thing I'd Change</a></li>
+            <li><a href="#who-this-is-actually-for">Who This Is Actually For</a></li>
+            <li><a href="#my-honest-take">My Honest Take</a></li>
+        </ul>
+    </div>
+
+    <!-- Desktop Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="toc-title">Contents</div>
+        <ul class="toc-list" id="desktopToc">
+            <li><a href="#what-free-actually-cost-me">What "Free" Actually Cost Me</a></li>
+            <li><a href="#the-real-math">The Real Math</a></li>
+            <li><a href="#why-diy-isnt-the-whole-story">Why DIY Isn't the Whole Story</a></li>
+            <li><a href="#the-one-thing-id-change">The One Thing I'd Change</a></li>
+            <li><a href="#who-this-is-actually-for">Who This Is Actually For</a></li>
+            <li><a href="#my-honest-take">My Honest Take</a></li>
+        </ul>
+    </aside>
+
+    <!-- Toggle Buttons -->
+    <button class="toggle-btn sidebar-toggle" id="sidebarToggle" onclick="toggleSidebar()" title="Toggle sidebar">⊗</button>
+    <button class="toggle-btn hamburger-btn" id="hamburgerBtn" onclick="openDrawer()" title="Open contents">☰</button>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="content-inner">
+            <h1>Would I Buy the ZimaCube 2 With My Own Money?</h1>
+
+            <p>I didn't pay for my ZimaCube 2. That's the first thing you need to know. I got it free through the <a href="../../posts/meta/disclaimer.html">Pioneer programme</a>, and I'm lucky for that. But I've been running it for weeks now, and there's a question I keep circling back to: if I had to pay full price, would I actually pull the trigger?</p>
+
+            <p>It's not an easy answer.</p>
+
+            <h2 id="what-free-actually-cost-me">What "Free" Actually Cost Me</h2>
+
+            <p>The unit <a href="../../posts/first-impressions/unboxing.html">showed up</a> with 8GB of RAM and a 256GB NVMe. That's the standard model. Bare bones. And in my opinion, 8GB is not enough for a machine like this. Most home lab software — Docker containers, VMs, data transfers — eats RAM way faster than it eats cores. I can run a NAS VM on one or two cores no problem. But RAM? That disappears fast.</p>
+
+            <p>So I bought a 32GB DDR5 stick. Secondhand, $150. I got lucky on the price. DDR5 isn't cheap.</p>
+
+            <p>I already had drives lying around from old projects. Three 1TB 3.5" spinning disks, and four 1TB NVMe sticks I'd picked up on AliExpress years ago for testing. I never throw away storage. Now they're all living in this one machine — two NVMe drives on the motherboard in RAID 1 for <a href="../../posts/homelab-journal/proxmox-primary-os.html">Proxmox</a>, two on the adapter card, and the three hard drives in the front bays.</p>
+
+            <p>My total out-of-pocket: $150.</p>
+
+            <p>But if I didn't have that stuff? If I was starting from zero?</p>
+
+            <h2 id="the-real-math">The Real Math</h2>
+
+            <p>The ZimaCube 2 <a href="../../posts/hardware/overview.html">standard model</a> starts at $800. That's the i3-1215U. The Pro model bumps up to an i5-1235U and costs more. There's a Creator Kit too. I didn't even look at the price.</p>
+
+            <p>So you're at $800 for the box with 8GB RAM and a 256GB NVMe (<a href="../../posts/homelab-journal/zimaos-review.html">pre-loaded with ZimaOS</a>). Now add the RAM. You're going to want at least 16GB. I'd argue 32GB is the sweet spot. At current DDR5 prices, that's another $150-300.</p>
+
+            <p>Then storage. Six 3.5" drive bays. Four NVMe slots on the adapter. Two more NVMe slots on the motherboard. Let's say you fill six bays with cheap 1TB drives. That's another few hundred. Add a couple of NVMe sticks. NVMe prices are up right now thanks to the AI boom. Everything's up.</p>
+
+            <p>To get my exact configuration — the one I'm running now — you'd be looking at roughly $1,400 to $1,500. Maybe more depending on when you buy.</p>
+
+            <p>That's a lot of money for a home lab. You can build something very capable for less if you know what you're doing.</p>
+
+            <h2 id="why-diy-isnt-the-whole-story">Why DIY Isn't the Whole Story</h2>
+
+            <p>I know the argument. I've made it myself. Go on Facebook Marketplace, buy a secondhand PC for fifty quid, grab a cheap graphics card, a couple of eBay drives, some network adapters, and jank something together. I've done it. I know how to plug things in and make them work.</p>
+
+            <p>But would it have Thunderbolt? Two Thunderbolt 4 ports, specifically.</p>
+
+            <p>I'm not using them right now. I got rid of my Mac mini, and that was my main Thunderbolt use case — fast external storage for video editing. If I still had it, I'd absolutely be running those NVMe drives in RAID over Thunderbolt. The speed would be ridiculous. And even without a Mac, those ports are genuine expandability. You can hook up a Thunderbolt dock and add network ports, displays, USB capture cards. Stuff you just can't do elegantly on a DIY box.</p>
+
+            <p>You also get <a href="../../posts/hardware/overview.html">dual 2.5GbE</a>. You get <a href="../../posts/hardware/disassembly.html">PCIe slots</a>. You get a case that actually fits together without cable management nightmares. You get something that looks like a real product, not a science project.</p>
+
+            <p>There's value in that. I just don't know if there's $1,400 of value for <em>me</em>.</p>
+
+            <h2 id="the-one-thing-id-change">The One Thing I'd Change</h2>
+
+            <p>I'm going to sound picky here. The <a href="../../posts/hardware/disassembly.html">power supply</a> is an external brick with a barrel jack. It works. It's fine.</p>
+
+            <p>But I wish it had an internal SFX power supply with a C13 kettle lead. A barrel jack halfway up the back of a machine feels fragile. A gentle pull on the cable and you're shutting down. A C13 is locked in. It's sturdier. It's standard.</p>
+
+            <p>Is that worth the extra cost? Probably not for most people. But I'd pay a little more for it.</p>
+
+            <h2 id="who-this-is-actually-for">Who This Is Actually For</h2>
+
+            <p>If you're like me — someone <a href="../../posts/first-impressions/introduction.html">who's been building home labs for years</a>, who knows how to shop secondhand, who enjoys the jank — the ZimaCube 2 probably isn't the best use of your money. You can build cheaper. You can build weirder. You can build something that does 80% of this for half the price.</p>
+
+            <p>But if you want an all-in-one box that you <a href="../../posts/first-impressions/unboxing.html">plug in</a>, configure once, and forget about? This is it. Six drive bays, Thunderbolt, 2.5GbE, upgradable RAM, compact and quiet. It really is a one-stop shop.</p>
+
+            <p>I think Ice Whale has done something genuinely good here. I loved the ZimaBlade with its exposed PCIe slot. I loved the ZimaBoard with its 2.5GbE and SATA expandability. Those were cheaper, lighter, lower-power devices with baked-in RAM. The ZimaCube 2 is a different beast entirely. It costs more. It does more. And I think it represents solid value — if you have the money and you don't want to tinker.</p>
+
+            <h2 id="my-honest-take">My Honest Take</h2>
+
+            <p>So would I buy it with my own money?</p>
+
+            <p>Probably not. Not at $800 bare bones, and definitely not at $1,400 configured. I'm too cheap, and I'm too experienced at DIY. If Ice Whale offered a true barebones kit — pick your CPU, no RAM, no drive — at around $500 or $600, I'd be much more tempted. As it stands, I feel like I'm paying for parts I'd immediately pull out and replace.</p>
+
+            <p>But here's the thing: I'm glad it exists. And if someone asked me "I have the budget, I don't want to build anything, what should I buy?" — I'd point them here without hesitation.</p>
+
+            <p>The ZimaCube 2 is worth the money. Just maybe not my money.</p>
+
+            <div class="post-footer">
+                <em>Written: May 2026</em>
+            </div>
+
+            <div class="backlinks">
+                <h3>Related Posts</h3>
+                <ul>
+                    <li><a href="../../posts/meta/disclaimer.html">Disclosure</a> — How I got this unit and the bias that comes with it</li>
+                    <li><a href="../../posts/first-impressions/unboxing.html">Unboxing</a> — What showed up in the box and first boot</li>
+                    <li><a href="../../posts/hardware/overview.html">Hardware Overview</a> — Full specs, ports, and the quirks I noticed</li>
+                    <li><a href="../../posts/hardware/disassembly.html">Taking It Apart</a> — Inside the case, the fan situation, and that mystery standoff</li>
+                    <li><a href="../../posts/homelab-journal/proxmox-primary-os.html">Why Proxmox Is the Only OS That Makes Sense</a> — How I'm actually using this machine</li>
+                </ul>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Sidebar toggle (desktop)
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('collapsed');
+            const btn = document.getElementById('sidebarToggle');
+            btn.textContent = sidebar.classList.contains('collapsed') ? '☰' : '⊗';
+        }
+
+        // Mobile drawer
+        function openDrawer() {
+            document.getElementById('mobileDrawer').classList.add('active');
+            document.getElementById('drawerOverlay').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeDrawer() {
+            document.getElementById('mobileDrawer').classList.remove('active');
+            document.getElementById('drawerOverlay').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // Active TOC highlighting
+        function updateActiveToc() {
+            const headings = document.querySelectorAll('h2[id]');
+            const tocLinks = document.querySelectorAll('.toc-list a');
+            let activeId = '';
+
+            headings.forEach(heading => {
+                const rect = heading.getBoundingClientRect();
+                if (rect.top <= 100) {
+                    activeId = heading.id;
+                }
+            });
+
+            tocLinks.forEach(link => {
+                link.classList.remove('active');
+                if (activeId && link.getAttribute('href') === '#' + activeId) {
+                    link.classList.add('active');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', updateActiveToc);
+        updateActiveToc();
+    </script>
+</body>
+</html>
