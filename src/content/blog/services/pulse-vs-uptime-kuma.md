@@ -40,7 +40,7 @@ Speaking of backups, Pulse is currently showing a **9.0x deduplication ratio** o
 
 Here's the full architecture of how Pulse monitors my fleet — it's simpler than you'd think:
 
-![Pulse Monitoring Architecture](/homelab-journal/images/pulse/architecture.png)
+![Pulse Monitoring Architecture](/homelab-journal/images/pulse/architecture.svg)
 
 *Interactive version: [Open in Excalidraw](https://excalidraw.com/#json=BIiT2GVO_NtO4B03XvokQ,kGMozcqAFwJe7b5iZYFAfQ)*
 
