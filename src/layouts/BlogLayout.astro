@@ -4,7 +4,10 @@ export interface Props {
   description?: string;
 }
 
+import '../styles/global.css';
+
 const { title, description } = Astro.props;
+const base = Astro.base || '/homelab-journal';
 ---
 
 <!doctype html>
@@ -13,19 +16,19 @@ const { title, description } = Astro.props;
     <meta charset="UTF-8" />
     <meta name="description" content={description ?? "ZimaCube Experience Blog — a running journal of homelab experiments."} />
     <meta name="viewport" content="width=device-width" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/svg+xml" href={base + "/favicon.svg"} />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
   </head>
   <body>
     <header class="border-b border-[var(--color-surface-hover)] bg-[var(--color-bg)] sticky top-0 z-50 backdrop-blur-md">
       <nav class="max-w-5xl mx-auto px-4 py-4 flex items-center justify-between">
-        <a href="/" class="text-xl font-bold tracking-tight text-[var(--color-text)]">
+        <a href={base + "/"} class="text-xl font-bold tracking-tight text-[var(--color-text)]">
           Homelab<span class="text-[var(--color-primary-light)]">.journal</span>
         </a>
         <div class="flex gap-6 text-sm font-medium text-[var(--color-text-muted)]">
-          <a href="/#directory" class="hover:text-[var(--color-text)]">Directory</a>
-          <a href="/#about" class="hover:text-[var(--color-text)]">About</a>
+          <a href={base + "/#directory"} class="hover:text-[var(--color-text)]">Directory</a>
+          <a href={base + "/#about"} class="hover:text-[var(--color-text)]">About</a>
         </div>
       </nav>
     </header>

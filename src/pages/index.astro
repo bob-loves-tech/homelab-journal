@@ -12,6 +12,8 @@ const categories = posts.reduce((acc, post) => {
   acc[cat].push(post);
   return acc;
 }, {} as Record<string, typeof posts>);
+
+const base = Astro.base || '/homelab-journal';
 ---
 
 <BlogLayout title="Homelab Journal">
@@ -32,7 +34,7 @@ const categories = posts.reduce((acc, post) => {
           <ul class="space-y-3">
             {catPosts.map(post => (
               <li>
-                <a href={`/posts/${post.id}`} class="group block">
+                <a href={base + `/posts/${post.id}`} class="group block">
                   <span class="font-medium group-hover:text-[var(--color-primary-light)]">{post.data.title}</span>
                   <span class="block text-xs text-[var(--color-text-muted)] mt-1">{post.data.date.toLocaleDateString('en-GB', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
                 </a>
