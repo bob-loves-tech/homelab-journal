@@ -36,6 +36,38 @@ Pulse gives me a unified dashboard for everything:
 
 Speaking of backups, Pulse is currently showing a **9.0x deduplication ratio** on my PBS datastore. That's not a stat I could easily get from a simple ping monitor. It's the kind of detail that makes you feel like you're running a real data centre, not just a couple of mini PCs on a desk.
 
+## How It All Links Together
+
+Here's the full architecture of how Pulse monitors my fleet — it's simpler than you'd think:
+
+![Pulse Monitoring Architecture](/homelab-journal/images/pulse/architecture.png)
+
+*Interactive version: [Open in Excalidraw](https://excalidraw.com/#json=BIiT2GVO_NtO4B03XvokQ,kGMozcqAFwJe7b5iZYFAfQ)*
+
+Pulse runs as **CT 102** on **Proxmox Host 2** (`10.0.50.50`). Once it's installed, here's what happens:
+
+**Step 1 - API Connection:** Pulse connects to the Proxmox API on both nodes (`10.0.50.10` and `10.0.50.50`). No SSH, no agents, no exporters — just the built-in Proxmox REST API over HTTPS. This is the biggest time-saver: every other monitoring tool I tried required installing something on *each* host.
+
+**Step 2 - Guest Discovery:** Through the API, Pulse discovers every container and VM on both hosts automatically. It reads:
+- **CPU and RAM** per guest — real-time usage and history
+- **Disk I/O** — which CT is hammering the storage
+- **Network throughput** — per-guest in/out graphs
+- **Backup status** — by talking to Proxmox Backup Server directly
+
+**Step 3 - The Dashboard:** All this data flows into the Pulse dashboard at `10.0.50.112:7655`. It's a single page that shows both hosts side by side, with expandable guest details. No clicking between tabs, no Grafana dashboards to build.
+
+**Step 4 - Pulse Patrol (optional):** The v6 RC adds an AI layer. Pulse Patrol uses Anthropic's Haiku model to scan the metrics and surface what actually matters — like telling you storage is at 62% rather than waiting for a hard threshold to trip.
+
+**The data flow is one-way:** Pulse reads from Proxmox and PBS. It doesn't write back, it doesn't reconfigure anything, and if Pulse goes down, your homelab keeps running. It's purely observability.
+
+| Component | Role | Connection |
+|-----------|------|------------|
+| Pulse Dashboard (CT 102) | Central monitoring UI | Web browser via `10.0.50.112:7655` |
+| Proxmox Host 1 (10.0.50.10) | Hosts DNS + PBS | HTTPS API from Pulse |
+| Proxmox Host 2 (10.0.50.50) | Hosts Pulse, PBS, VMs | HTTPS API from Pulse |
+| PBS (CT 101) | Backup server | Backup data + dedup stats to Pulse |
+| Pulse Patrol AI | Health analysis | Reads metrics from Pulse |
+
 ## The UI Is Actually Good
 
 I'll be honest: I like looking at my dashboard.
