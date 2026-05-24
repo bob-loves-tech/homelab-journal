@@ -7,13 +7,15 @@
   },
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "images": "node scripts/optimize-images.mjs",
+    "build": "npm run images && astro build",
     "preview": "astro preview",
     "astro": "astro"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.3.0",
     "astro": "^6.3.7",
+    "sharp": "^0.34.5",
     "tailwindcss": "^4.3.0"
   }
 }
