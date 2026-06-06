@@ -1,7 +1,13 @@
 ---
-title: "If You’re the Family IT Guy, You Need Twingate"
-category: "Services"
+title: "If You’re the Family IT Guy, You Need Twingate"
+description: "A practical case for Twingate as the family IT remote access tool, avoiding exposed ports while keeping support simple and reliable."
+category: "Services"
 date: 2026-06-01
+tags:
+  - twingate
+  - remote-access
+  - security
+  - homelab
 ---
 
 # If You’re the Family IT Guy, You Need Twingate
@@ -148,4 +154,3 @@ If you want the wider context on sponsored bits and how I handle them, that is i
 - [Watching the Fleet: What Does a One-Man Homelab Actually Need?](/homelab-journal/posts/homelab-journal/monitoring-the-fleet/)
 - [Full Disclosure & Transparency](/homelab-journal/posts/meta/disclaimer/)
 
-*Written: June 2026*

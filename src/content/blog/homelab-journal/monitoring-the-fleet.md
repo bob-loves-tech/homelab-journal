@@ -1,12 +1,20 @@
 ---
-title: "Watching the Fleet: What Does a One-Man Homelab Actually Need?"
-category: "Homelab Journal"
+title: "Watching the Fleet: What Does a One-Man Homelab Actually Need?"
+description: "How Pulse monitors Bobby's small Proxmox fleet, why it replaced heavier dashboards, and what a one-person homelab actually needs."
+category: "Homelab Journal"
 date: 2026-05-01
+tags:
+  - monitoring
+  - pulse
+  - proxmox
+  - homelab
+heroImage: "/homelab-journal/assets/images/pulse/pulse%20dashboard.png"
+heroImageAlt: "Pulse dashboard showing Proxmox host health and resource usage"
 ---
 
 # Watching the Fleet: What Does a One-Man Homelab Actually Need?
 
-I now have two Proxmox hosts sitting on my desk, plus a ZimaBlade waiting in the wings for a purpose I have not found yet. The ZimaCube runs almost everything that matters to me on my home network. DNS. DHCP. Containers. The whole Synology NAS-as-a-VM situation I described in [the Proxmox post](proxmox-primary-os.md). And [the backup chain](backups.md) that keeps all of it safe.
+I now have two Proxmox hosts sitting on my desk, plus a ZimaBlade waiting in the wings for a purpose I have not found yet. The ZimaCube runs almost everything that matters to me on my home network. DNS. DHCP. Containers. The whole Synology NAS-as-a-VM situation I described in [the Proxmox post](/homelab-journal/posts/homelab-journal/proxmox-primary-os/). And [the backup chain](/homelab-journal/posts/homelab-journal/backups/) that keeps all of it safe.
 
 Which means the ZimaCube is also the single point of failure for my entire digital life.
 
@@ -14,7 +22,7 @@ That is a slightly uncomfortable realisation. It is one thing to tinker with a b
 
 ## What I Am Using Right Now
 
-I run an LXC container called Pulse. It monitors both of my active Proxmox hosts — the ZimaCube and a decade-old Mac Mini — and gives me a graphical dashboard with CPU, memory, network, disk, the lot. It looks genuinely good. Clean graphs, colour-coded health indicators, the kind of interface you want to look at. I wrote about it in [the backups post](backups.md), but it deserves more than a mention here because it is the tool I actually open every morning.
+I run an LXC container called Pulse. It monitors both of my active Proxmox hosts — the ZimaCube and a decade-old Mac Mini — and gives me a graphical dashboard with CPU, memory, network, disk, the lot. It looks genuinely good. Clean graphs, colour-coded health indicators, the kind of interface you want to look at. I wrote about it in [the backups post](/homelab-journal/posts/homelab-journal/backups/), but it deserves more than a mention here because it is the tool I actually open every morning.
 
 I know I could check all of this from the command line. I know there are terminal-based tools that would make me feel very technical. But I like opening a browser and seeing a single screen that tells me whether everything is fine or whether something is about to break. Pulse also sends me alerts. If something goes wrong, I get a message. I do not need to be checking dashboards constantly — the dashboard checks me.
 
@@ -64,7 +72,7 @@ That is not something Uptime Kuma can do. That is not something Pulse can do eit
 
 I am not sure this is a good idea yet. It might be over-engineered. It might be the homelab equivalent of using a sledgehammer to crack a nut. But it is the kind of thing that is now *possible* because the ZimaCube has enough resources to run it, and because I have this container with all the AI tools sitting in it doing nothing most of the time.
 
-The ZimaCube has six cores, forty gigabytes of RAM, six drive bays, and dual 2.5GbE networking. I mentioned the specs in [the hardware overview](../hardware/overview.md) and the reality of them when I [opened the case up](../hardware/disassembly.md). It is a machine that was designed as a NAS but behaves like a proper server. And that means I can run monitoring, AI agents, and everything else alongside my actual services without any of it struggling.
+The ZimaCube has six cores, forty gigabytes of RAM, six drive bays, and dual 2.5GbE networking. I mentioned the specs in [the hardware overview](/homelab-journal/posts/hardware/overview/) and the reality of them when I [opened the case up](/homelab-journal/posts/hardware/disassembly/). It is a machine that was designed as a NAS but behaves like a proper server. And that means I can run monitoring, AI agents, and everything else alongside my actual services without any of it struggling.
 
 Whether I *should* is a different question. But the fact that I *can* is what makes this whole project interesting.
 
@@ -81,10 +89,9 @@ I will let you know how it goes.
 ---
 
 **Related Posts:**
-- [Why Proxmox Is the Only OS That Makes Sense](proxmox-primary-os.md) — the setup being monitored
-- [The Most Exciting Topic in Tech: Backups](backups.md) — where Pulse first appears
-- [Hardware Overview](../hardware/overview.md) — the specs this is all running on
-- [Inside the ZimaCube](../hardware/disassembly.md) — the physical reality of the machine
-- [Bare-Metal Windows Server 2025](../windows-server/bare-metal-setup.md) — the experiment that showed me what this hardware can do
+- [Why Proxmox Is the Only OS That Makes Sense](/homelab-journal/posts/homelab-journal/proxmox-primary-os/) — the setup being monitored
+- [The Most Exciting Topic in Tech: Backups](/homelab-journal/posts/homelab-journal/backups/) — where Pulse first appears
+- [Hardware Overview](/homelab-journal/posts/hardware/overview/) — the specs this is all running on
+- [Inside the ZimaCube](/homelab-journal/posts/hardware/disassembly/) — the physical reality of the machine
+- [Bare-Metal Windows Server 2025](/homelab-journal/posts/windows-server/bare-metal-setup/) — the experiment that showed me what this hardware can do
 
-*Written: May 2026*

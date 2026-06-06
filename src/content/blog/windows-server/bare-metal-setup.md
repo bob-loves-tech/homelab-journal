@@ -1,7 +1,13 @@
 ---
-title: "Bare-Metal Windows Server 2025 on a NAS"
-category: "Windows Server"
+title: "Bare-Metal Windows Server 2025 on a NAS"
+description: "What happened when Bobby installed Windows Server 2025 directly on the ZimaCube, including drivers, hardware support, and lessons learned."
+category: "Windows Server"
 date: 2026-05-01
+tags:
+  - windows-server
+  - zimacube
+  - drivers
+  - bare-metal
 ---
 
 # Bare-Metal Windows Server 2025 on a NAS
@@ -132,7 +138,6 @@ Just don't expect the drivers to work out of the box. The playbook is: download 
 ---
 
 **Related Posts:**
-- [Hardware Overview](../hardware/overview.md) — specs this install was running on
-- [Introduction](../first-impressions/introduction.md) — why this repo exists
+- [Hardware Overview](/homelab-journal/posts/hardware/overview/) — specs this install was running on
+- [Introduction](/homelab-journal/posts/first-impressions/introduction/) — why this repo exists
 
-*Written: May 2026*

@@ -1,7 +1,15 @@
 ---
-title: "Why Pulse Is The Monitoring Tool I Actually Use"
-category: "Services"
+title: "Why Pulse Is The Monitoring Tool I Actually Use"
+description: "Why Pulse became Bobby's daily Proxmox monitoring dashboard, how it compares with Uptime Kuma, and where each tool still fits."
+category: "Services"
 date: 2026-05-21
+tags:
+  - pulse
+  - uptime-kuma
+  - monitoring
+  - proxmox
+heroImage: "/homelab-journal/assets/images/pulse/pulse%20dashboard.png"
+heroImageAlt: "Pulse dashboard used to monitor Proxmox hosts and services"
 ---
 
 # Why Pulse Is The Monitoring Tool I Actually Use
@@ -98,4 +106,3 @@ Sometimes the right tool isn't the most popular one. It's just the one that actu
 
 ---
 
-*Written: May 2026*

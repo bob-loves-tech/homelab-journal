@@ -1,7 +1,13 @@
 ---
-title: "Why Proxmox Is the Only OS That Makes Sense for the ZimaCube"
-category: "Homelab Journal"
+title: "Why Proxmox Is the Only OS That Makes Sense for the ZimaCube"
+description: "Why Proxmox became the main OS for the ZimaCube, from shared storage and Synology VM plans to containers, VMs, and future growth."
+category: "Homelab Journal"
 date: 2026-05-01
+tags:
+  - proxmox
+  - zimacube
+  - virtualization
+  - homelab
 ---
 
 # Why Proxmox Is the Only OS That Makes Sense for the ZimaCube
@@ -22,7 +28,7 @@ That alone would have been enough to make me happy. But I did not stop at one ma
 
 ## The Fleet
 
-I now have three separate Proxmox hosts. The ZimaCube is the main one — the same machine I wrote about in [the hardware overview](../hardware/overview.md) and later [took apart to see what was inside](../hardware/disassembly.md). An old x86 mini PC is the second. The ZimaBlade — previously running ZimaOS, now fitted with a PCIe adapter and an NVMe card — is the third. All three run Proxmox. All three point at the same Synology NAS for ISOs and container templates.
+I now have three separate Proxmox hosts. The ZimaCube is the main one — the same machine I wrote about in [the hardware overview](/homelab-journal/posts/hardware/overview/) and later [took apart to see what was inside](/homelab-journal/posts/hardware/disassembly/). An old x86 mini PC is the second. The ZimaBlade — previously running ZimaOS, now fitted with a PCIe adapter and an NVMe card — is the third. All three run Proxmox. All three point at the same Synology NAS for ISOs and container templates.
 
 This is the part that genuinely changed how I work. Before, if I wanted to create a VM on any of those machines, I needed the ISO sitting locally on that specific host. That meant either copying the file to three locations or keeping a mental map of which ISO lived where. Now there is one copy on the NAS, and every host sees it. If I download a new server ISO or a fresh LXC template, I drop it once and it is available everywhere.
 
@@ -34,7 +40,7 @@ The DNS and DHCP for my network are handled by a Technitium DNS instance running
 
 The ZimaCube itself is handling the heavier stuff. Proxmox is the control plane. Synology DSM manages the disks. LXC containers run the services I want always-on. I am not touching Docker directly anymore if I can avoid it — an LXC container is lighter, faster to back up, and restores in seconds if something goes wrong.
 
-This is a long way from where I started. In [my first post](../first-impressions/introduction.md) I was still figuring out whether this blog was even worth keeping. Then I ran ZimaOS for a while and found myself [hitting its ceiling](../homelab-journal/zimaos-review.md) — no VMs, no LXC, just Docker and file shares on hardware that was built for more. Then I went all-in on [Windows Server 2025 bare metal](../windows-server/bare-metal-setup.md), spent a Sunday hunting drivers, and got it working. It was good. It genuinely ran well. But every time I thought about what I wanted to do next — GPU passthrough, a dozen lightweight containers, a Synology VM — I kept bumping into walls that Proxmox does not have.
+This is a long way from where I started. In [my first post](/homelab-journal/posts/first-impressions/introduction/) I was still figuring out whether this blog was even worth keeping. Then I ran ZimaOS for a while and found myself [hitting its ceiling](/homelab-journal/posts/homelab-journal/zimaos-review/) — no VMs, no LXC, just Docker and file shares on hardware that was built for more. Then I went all-in on [Windows Server 2025 bare metal](/homelab-journal/posts/windows-server/bare-metal-setup/), spent a Sunday hunting drivers, and got it working. It was good. It genuinely ran well. But every time I thought about what I wanted to do next — GPU passthrough, a dozen lightweight containers, a Synology VM — I kept bumping into walls that Proxmox does not have.
 
 ## What Comes Next
 
@@ -53,10 +59,9 @@ I should have done this from day one. But then I would not have known why it was
 ---
 
 **Related Posts:**
-- [ZimaOS: Good at What It Does, Just Not for This](../homelab-journal/zimaos-review.md) — why the stock OS was not enough
-- [Bare-Metal Windows Server 2025 on a NAS](../windows-server/bare-metal-setup.md) — the experiment that preceded this
-- [Hardware Overview](../hardware/overview.md) — the specs this setup is running on
-- [Inside the ZimaCube](../hardware/disassembly.md) — what I found when I opened the case
-- [Introduction](../first-impressions/introduction.md) — why this blog exists
+- [ZimaOS: Good at What It Does, Just Not for This](/homelab-journal/posts/homelab-journal/zimaos-review/) — why the stock OS was not enough
+- [Bare-Metal Windows Server 2025 on a NAS](/homelab-journal/posts/windows-server/bare-metal-setup/) — the experiment that preceded this
+- [Hardware Overview](/homelab-journal/posts/hardware/overview/) — the specs this setup is running on
+- [Inside the ZimaCube](/homelab-journal/posts/hardware/disassembly/) — what I found when I opened the case
+- [Introduction](/homelab-journal/posts/first-impressions/introduction/) — why this blog exists
 
-*Written: May 2026*

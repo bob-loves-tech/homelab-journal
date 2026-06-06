@@ -1,7 +1,13 @@
 ---
-title: "Unboxing and First Boot"
-category: "First Impressions"
+title: "Unboxing and First Boot"
+description: "First boot notes from unboxing the ZimaCube 2, including the hardware bundle, initial setup path, and what stood out before real testing began."
+category: "First Impressions"
 date: 2026-05-01
+tags:
+  - zimacube
+  - first-impressions
+  - homelab
+  - hardware
 ---
 
 # Unboxing and First Boot
@@ -40,4 +46,3 @@ For now? It works. It's beautiful. And it got me from "cut the tape" to "logged 
 
 ---
 
-*Written: May 2026*

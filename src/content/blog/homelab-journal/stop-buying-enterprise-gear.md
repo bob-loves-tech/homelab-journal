@@ -1,7 +1,15 @@
 ---
-title: "Stop Buying Enterprise Gear — This £250 Board Runs My Homelab"
-category: "Homelab Journal"
+title: "Stop Buying Enterprise Gear — This £250 Board Runs My Homelab"
+description: "A hands-on look at using the ZimaBoard 2 as affordable homelab hardware instead of chasing loud, power-hungry enterprise gear."
+category: "Homelab Journal"
 date: 2026-05-26
+tags:
+  - zimaboard
+  - homelab
+  - hardware
+  - self-hosting
+heroImage: "/homelab-journal/images/zimaboard-2/zimaboard-2-board.png"
+heroImageAlt: "ZimaBoard 2 single-board server used for homelab workloads"
 ---
 
 # Stop Buying Enterprise Gear — This £250 Board Runs My Homelab
@@ -12,7 +20,7 @@ I have got a closed source OS from a Chinese company. I am running a single boar
 
 Yet somehow, the £250 setup I have got sitting on my desk is the most reliable, easiest to manage, and lowest maintenance homelab I have ever run. It just works. I actually use it on a daily basis instead of spending my weekends trying to fix it.
 
-Full disclosure: Ice Whale, the company behind the [ZimaBoard 2](https://shop.zimaboard.com/products/zimaboard2-single-board-server), sent me this as well as the hard drive cage to review. I have got history with them — they have reached out before, and I thought the ZimaBoard was fantastic. [Read the full disclosure here](../meta/disclaimer.md).
+Full disclosure: Ice Whale, the company behind the [ZimaBoard 2](https://shop.zimaboard.com/products/zimaboard2-single-board-server), sent me this as well as the hard drive cage to review. I have got history with them — they have reached out before, and I thought the ZimaBoard was fantastic. [Read the full disclosure here](/homelab-journal/posts/meta/disclaimer/).
 
 ![ZimaBoard 2 - front view showing ports](/homelab-journal/images/zimaboard-2/zimaboard-2-board.png)
 
@@ -128,4 +136,3 @@ For £250, I have got a server that just works. That is worth more than any amou
 - [Watching the Fleet: What Does a One-Man Homelab Actually Need?](/homelab-journal/posts/homelab-journal/monitoring-the-fleet/)
 - [Full Disclosure & Transparency](/homelab-journal/posts/meta/disclaimer/)
 
-*Written: May 2026*

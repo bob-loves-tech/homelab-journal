@@ -1,7 +1,13 @@
 ---
-title: "Why I Switched to Technitium DNS in a Proxmox LXC"
-category: "Services"
+title: "Why I Switched to Technitium DNS in a Proxmox LXC"
+description: "Why Bobby moved DNS into a Technitium LXC on Proxmox, replacing lighter DNS tools with a more complete local DNS setup."
+category: "Services"
 date: 2026-05-21
+tags:
+  - technitium
+  - dns
+  - proxmox
+  - lxc
 ---
 
 # Why I Switched to Technitium DNS in a Proxmox LXC
@@ -26,4 +32,3 @@ I'm sticking with it. It's not as flashy as some of the other options, but it wo
 
 ---
 
-*Written: May 2026*

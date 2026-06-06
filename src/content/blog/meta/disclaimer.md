@@ -1,7 +1,12 @@
 ---
-title: "Full Disclosure & Transparency"
-category: "Meta"
+title: "Full Disclosure & Transparency"
+description: "Bobby's disclosure page explaining review hardware, vendor relationships, bias, and how Homelab Journal keeps sponsored context clear."
+category: "Meta"
 date: 2026-05-01
+tags:
+  - disclosure
+  - transparency
+  - homelab-journal
 ---
 
 # Full Disclosure & Transparency

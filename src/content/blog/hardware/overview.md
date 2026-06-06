@@ -1,7 +1,13 @@
 ---
-title: "Hardware Overview"
-category: "Hardware"
+title: "Hardware Overview"
+description: "A practical ZimaCube 2 hardware overview covering the CPU, memory, drive bays, networking, ports, PCIe expansion, and early quirks."
+category: "Hardware"
 date: 2026-05-01
+tags:
+  - zimacube
+  - hardware
+  - nas
+  - homelab
 ---
 
 # Hardware Overview
@@ -72,4 +78,3 @@ I have the Standard model. Silver casing, not the black Pro. Here's what's insid
 
 ---
 
-*Written: May 2026*

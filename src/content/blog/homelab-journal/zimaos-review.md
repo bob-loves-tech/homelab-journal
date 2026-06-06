@@ -1,7 +1,13 @@
 ---
-title: "ZimaOS: Good at What It Does, Just Not for This"
-category: "Homelab Journal"
+title: "ZimaOS: Good at What It Does, Just Not for This"
+description: "A practical ZimaOS review explaining where the stock NAS software works well, where it runs out of room, and why Proxmox won."
+category: "Homelab Journal"
 date: 2026-05-01
+tags:
+  - zimaos
+  - zimacube
+  - proxmox
+  - nas
 ---
 
 # ZimaOS: Good at What It Does, Just Not for This
@@ -46,4 +52,3 @@ If you are considering a ZimaCube and you know you want to run VMs, plan your OS
 
 ---
 
-*Written: May 2026*
