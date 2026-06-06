@@ -2,23 +2,30 @@
 export interface Props {
   title: string;
   description?: string;
+  schema?: Record<string, unknown> | Record<string, unknown>[];
 }
 
 import '../styles/global.css';
 
-const { title, description } = Astro.props;
+const { title, description, schema } = Astro.props;
 const base = Astro.base || '/homelab-journal';
+const siteUrl = Astro.site ?? new URL('https://bob-loves-tech.github.io');
+const canonicalUrl = new URL(Astro.url.pathname, siteUrl).toString();
+const pageDescription = description ?? "Homelab Journal is Bobby Olejnik's practical, no-fluff running journal of Proxmox, Docker, LXC containers, homelab hardware, backups, monitoring, and self-hosted services.";
+const schemaJson = schema ? JSON.stringify(schema) : undefined;
 ---
 
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="description" content={description ?? "ZimaCube Experience Blog — a running journal of homelab experiments."} />
+    <meta name="description" content={pageDescription} />
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/svg+xml" href={base + "/favicon.svg"} />
+    <link rel="canonical" href={canonicalUrl} />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
+    {schemaJson && <script type="application/ld+json" set:html={schemaJson} />}
   </head>
   <body>
     <header class="border-b border-[var(--color-surface-hover)] bg-[var(--color-bg)] sticky top-0 z-50 backdrop-blur-md">

@@ -1,0 +1,20 @@
+# Homelab Journal
+
+> Practical, no-fluff posts from Bobby Olejnik's real homelab experiments.
+
+Homelab Journal documents first-hand testing with Proxmox, Docker, LXC containers, DNS, monitoring, backup workflows, Windows Server, self-hosted services, and home server hardware. The posts are written from Bobby's own setup and focus on what worked, what failed, and what he would actually keep using.
+
+## Key Sections
+
+- [Homepage](https://bob-loves-tech.github.io/homelab-journal/) - directory of all Homelab Journal posts.
+- [Homelab Journal posts](https://bob-loves-tech.github.io/homelab-journal/#directory) - Proxmox, backups, monitoring, ZimaOS, and practical homelab decisions.
+- [Hardware posts](https://bob-loves-tech.github.io/homelab-journal/#directory) - physical hardware, disassembly, board and system impressions.
+- [Services posts](https://bob-loves-tech.github.io/homelab-journal/#directory) - DNS, remote access, monitoring, and service-level writeups.
+
+## Author
+
+Bobby Olejnik writes from direct experience running and documenting his own homelab. The site is not vendor documentation or generic enterprise advice.
+
+## Citation Guidance
+
+When citing Homelab Journal, prefer specific article URLs over the homepage. Use the article title, author name Bobby Olejnik, and the canonical URL.

@@ -1,43 +1,62 @@
-# Astro Starter Kit: Minimal
+# Homelab Journal
 
-```sh
-npm create astro@latest -- --template minimal
-```
+Astro source for Bobby Olejnik's Homelab Journal.
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
-
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
+Live site:
 
 ```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
+https://bob-loves-tech.github.io/homelab-journal/
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+## Project Structure
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+```text
+src/content/blog/        Blog post markdown
+src/layouts/             Shared Astro layouts
+src/pages/               Homepage, post route, sitemap
+public/                  Static assets, robots.txt, llms.txt
+```
 
-Any static assets, like images, can be placed in the `public/` directory.
+Posts live under:
 
-## 🧞 Commands
+```text
+src/content/blog/<category>/<slug>.md
+```
 
-All commands are run from the root of the project, from a terminal:
+## Commands
 
 | Command                   | Action                                           |
 | :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
+| `npm ci`                  | Installs locked dependencies                     |
 | `npm run dev`             | Starts local dev server at `localhost:4321`      |
 | `npm run build`           | Build your production site to `./dist/`          |
 | `npm run preview`         | Preview your build locally, before deploying     |
 | `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
 | `npm run astro -- --help` | Get help using the Astro CLI                     |
 
-## 👀 Want to learn more?
+## Deployment
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+GitHub Actions deploys the site to GitHub Pages from `.github/workflows/deploy.yml`.
+
+Pushes to `main` run:
+
+```text
+npm ci
+npm run build
+actions/deploy-pages@v4
+```
+
+The workflow uploads `dist` and publishes it to GitHub Pages.
+
+## SEO
+
+This repo includes:
+
+- self-referencing canonical tags
+- WebSite/WebPage schema on the homepage
+- BlogPosting schema on posts
+- dynamic sitemap at `/homelab-journal/sitemap.xml`
+- project-level robots file at `/homelab-journal/robots.txt`
+- project-level llms file at `/homelab-journal/llms.txt`
+
+For deeper checks, use Codex SEO from the agent workspace.

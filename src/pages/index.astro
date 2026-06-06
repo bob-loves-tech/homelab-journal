@@ -14,13 +14,58 @@ const categories = posts.reduce((acc, post) => {
 }, {} as Record<string, typeof posts>);
 
 const base = Astro.base || '/homelab-journal';
+const siteUrl = Astro.site ?? new URL('https://bob-loves-tech.github.io');
+const homeUrl = new URL(base + '/', siteUrl).toString();
+const description = "Homelab Journal is Bobby Olejnik's practical, no-fluff running journal of Proxmox, Docker, LXC containers, homelab hardware, backups, monitoring, and self-hosted services.";
+const schema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: 'Homelab Journal',
+    url: homeUrl,
+    description,
+    author: {
+      '@type': 'Person',
+      name: 'Bobby Olejnik',
+      url: 'https://github.com/bob-loves-tech'
+    }
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: 'Homelab Journal',
+    url: homeUrl,
+    description,
+    isPartOf: {
+      '@type': 'WebSite',
+      name: 'Homelab Journal',
+      url: homeUrl
+    },
+    about: [
+      'homelab',
+      'Proxmox',
+      'Docker',
+      'self-hosting',
+      'home server hardware',
+      'monitoring',
+      'backups'
+    ]
+  }
+];
 ---
 
-<BlogLayout title="Homelab Journal">
+<BlogLayout title="Homelab Journal" description={description} schema={schema}>
   <section class="text-center mb-16">
     <h1 class="text-5xl font-extrabold tracking-tight mb-4">Homelab <span class="text-[var(--color-primary-light)]">Journal</span></h1>
     <p class="text-lg text-[var(--color-text-muted)] max-w-2xl mx-auto">
       A practical, no-fluff running journal of my homelab experiments. LXC containers, Docker, Proxmox scripts, and the occasional weird idea that actually worked.
+    </p>
+  </section>
+
+  <section class="prose max-w-3xl mx-auto mb-16">
+    <h2>What is Homelab Journal?</h2>
+    <p>
+      Homelab Journal is Bobby Olejnik's hands-on record of building, breaking, and improving a real home lab. The posts cover Proxmox hosts, Docker services, LXC containers, DNS, monitoring, backups, Windows Server, and the hardware choices behind the setup. The point is not polished enterprise theory. It is practical testing: what worked, what failed, what was worth keeping, and what Bobby would do differently next time.
     </p>
   </section>
 
@@ -46,9 +91,10 @@ const base = Astro.base || '/homelab-journal';
     </div>
   </section>
 
-  <section class="prose max-w-3xl border-t border-[var(--color-surface-hover)] pt-12 text-center mx-auto">
+  <section id="about" class="prose max-w-3xl border-t border-[var(--color-surface-hover)] pt-12 text-center mx-auto">
     <h2>Why This Exists</h2>
     <p>I break things so you don't have to. Or maybe I just like documenting the process. Either way, if it runs on Proxmox, it's probably here.</p>
+    <p>Written by Bobby Olejnik, based on first-hand testing in his own homelab.</p>
     <p class="text-sm text-[var(--color-text-muted)] mt-8">Last updated: May 2026</p>
   </section>
 </BlogLayout>
