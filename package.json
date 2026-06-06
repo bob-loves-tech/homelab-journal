@@ -9,6 +9,10 @@
     "dev": "astro dev",
     "images": "node scripts/optimize-images.mjs",
     "build": "npm run images && astro build",
+    "check:content": "node scripts/check-content-seo.mjs",
+    "check:dist": "node scripts/check-dist-seo.mjs",
+    "check": "npm run check:content && npm run check:dist",
+    "check:live": "node scripts/check-live-site.mjs https://bob-loves-tech.github.io/homelab-journal/",
     "preview": "astro preview",
     "astro": "astro"
   },
