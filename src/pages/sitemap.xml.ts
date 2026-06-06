@@ -10,7 +10,7 @@ export async function GET({ site }: { site: URL }) {
     },
     ...posts.map((post) => ({
       loc: new URL(`${base}/posts/${post.id}/`, site).toString(),
-      lastmod: post.data.date.toISOString()
+      lastmod: (post.data.updatedDate ?? post.data.date).toISOString()
     }))
   ];
 
