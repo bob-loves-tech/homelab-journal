@@ -49,6 +49,8 @@ I ran it for about three weeks on macOS first, and it handled about 8 to 10 Dock
 
 That still was not the setup I wanted.
 
+I have already written about preferring simple Docker-first setups over overbuilt lab gear in [Stop Buying Enterprise Gear](/homelab-journal/posts/homelab-journal/stop-buying-enterprise-gear/). This looked like it should have fit that same idea, just in a much prettier box.
+
 Running Docker on macOS always feels like you are dragging a server workload through an operating system that does not really want to be a server operating system. Yes, it works. No, I do not enjoy it.
 
 The networking side is the bit that gets old fast.
@@ -78,6 +80,8 @@ This is the bit that genuinely irritated me.
 Fedora Linux was the answer to the container side of the puzzle. Better Docker compatibility. Better networking. Better handling for custom IP addresses. Less of the macOS nonsense. More of the normal Linux behaviour you actually want when you are building a proper home lab.
 
 That was the appeal.
+
+It is the same reason I keep ending up back at Linux-first thinking in pieces like [Why Proxmox Is the Only OS That Makes Sense for the ZimaCube](/homelab-journal/posts/homelab-journal/proxmox-primary-os/). Once you have used a cleaner server OS, it gets harder to pretend the compromise does not matter.
 
 I also wanted ZFS.
 
@@ -135,6 +139,8 @@ I do not need a homelab machine to be clever.
 
 I need it to make sense.
 
+It is the same reason I care more about useful, low-friction infrastructure than theoretical perfection. That came up in [Watching the Fleet](/homelab-journal/posts/homelab-journal/monitoring-the-fleet/), and it is the same theme here.
+
 That is why I still lean toward purpose-built gear or even a plain Intel mini PC for a lot of this stuff. It might use more power. It might be uglier. It might be less exciting. It is usually much easier to shape into the thing you actually need.
 
 You can add storage.
@@ -162,6 +168,8 @@ That is a frustrating place to land.
 The Mac Mini M1 is a brilliant little computer.
 
 It is also a slightly infuriating homelab server.
+
+That frustration lands in the same bucket as my [ZimaOS review](/homelab-journal/posts/homelab-journal/zimaos-review/). Good hardware or decent software on its own is not enough if the overall setup keeps getting in the way.
 
 At about £220, with 8 to 10 watt power draw and enough performance to run 8 to 10 Docker containers, it looks like a bargain. In some narrow use cases, it is a bargain. If all you want is a quiet little box and you are happy with the compromises, you could absolutely make it work.
 
