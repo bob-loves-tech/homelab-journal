@@ -14,3 +14,9 @@
 - In his demo, he used Google for SSO.
 - In his demo, he set up a resource for Uptime Kuma on port 3001.
 - Twingate recommends running two connectors for redundancy.
+
+## 2026-06-08 — Fedora Server Is the Sleeper Homelab OS Nobody Talks About
+- Bobby’s position is that Fedora Server is one of the most overlooked operating systems for small homelab boxes.
+- The core reason is Cockpit, which makes services, logs, storage, updates, users, and terminal access easier to manage.
+- This claim is scoped to smaller boxes running lightweight services rather than dedicated VM-heavy hypervisor hosts.
+- Bobby still considers Proxmox the right answer for virtualization-first machines.
